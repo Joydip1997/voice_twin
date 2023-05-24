@@ -166,6 +166,6 @@ async function fetchAvailableToken(uid){
 
 
 
-app.listen(process.env.PORT || 80, () => {
+app.listen(process.env.PORT || 7000, () => {
   console.log("Server is running ");
 });
