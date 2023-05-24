@@ -46,7 +46,7 @@ function fetchUserDetails(uid) {
 
 
     sumbitBtn.disabled = true;
-    const url = 'http://139.59.29.62:7000/getUserDetails?' + params.toString();
+    const url = 'http://www.vocaltwin.cloud/getUserDetails?' + params.toString();
 
 
     const requestOptions = {
@@ -85,7 +85,7 @@ function signOut() {
             document.head.innerHTML = '';
 
             // Navigate to another page
-            window.location.href = 'http://139.59.29.62:7000/auth';
+            window.location.href = 'http://www.vocaltwin.cloud/auth';
         }, 1000)
     }).catch(function (error) {
         // An error happened.
@@ -189,7 +189,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
     sumbitBtn.disabled = true;
     document.getElementById("voiceForm").appendChild(loadingText);
 
-    const apiUrl = 'http://139.59.29.62:7000/convertTextToAudio';
+    const apiUrl = 'http://www.vocaltwin.cloud/convertTextToAudio';
 
     // Query parameters
     const queryParams = {

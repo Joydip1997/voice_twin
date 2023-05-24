@@ -64,7 +64,7 @@ function fetchUserDetails(uid) {
 
 
     // Build the URL with query parameters
-    const url = 'http://139.59.29.62:7000/getUserDetails?' + params.toString();
+    const url = 'http://www.vocaltwin.cloud/getUserDetails?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
@@ -85,7 +85,7 @@ function fetchUserDetails(uid) {
             document.head.innerHTML = '';
 
             // Navigate to another page
-            window.location.href = 'http://139.59.29.62:7000/home';
+            window.location.href = 'http://www.vocaltwin.cloud/home';
         })
         .catch(error => {
             // Handle any errors
@@ -102,7 +102,7 @@ function registerNewUser(uid) {
 
 
     // Build the URL with query parameters
-    const url = 'http://139.59.29.62:7000/register?' + params.toString();
+    const url = 'http://www.vocaltwin.cloud/register?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
