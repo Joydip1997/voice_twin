@@ -1,4 +1,4 @@
-name: Node Github CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -6,42 +6,41 @@ on:
       - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.12.1
 
-      - name: npm install and test
-        run: |
-          npm install
-          npm test
-        env:
-          CI: true
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
 
   deploy:
-    needs: [test]
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH and deploy node app
-        uses: appleboy/ssh-action@master
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install openssh-client -y
+
+      - name: Deploy to DigitalOcean Droplet
+        uses: appleboy/ssh-action@v0.6.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/node-github-demo
-            git pull origin master
+            cd /path/to/your/project
+            git pull origin main
             npm install --production
-            pm2 restart node-app
+            pm2 restart app.js
