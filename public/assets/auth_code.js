@@ -64,7 +64,7 @@ function fetchUserDetails(uid) {
 
 
     // Build the URL with query parameters
-    const url = 'http://localhost:3000/getUserDetails?' + params.toString();
+    const url = 'http://localhost:7000/getUserDetails?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
@@ -85,7 +85,7 @@ function fetchUserDetails(uid) {
             document.head.innerHTML = '';
 
             // Navigate to another page
-            window.location.href = 'http://localhost:3000/home';
+            window.location.href = 'http://localhost:7000/home';
         })
         .catch(error => {
             // Handle any errors
@@ -102,7 +102,7 @@ function registerNewUser(uid) {
 
 
     // Build the URL with query parameters
-    const url = 'http://localhost:3000/register?' + params.toString();
+    const url = 'http://localhost:7000/register?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
