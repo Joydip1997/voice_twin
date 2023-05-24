@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Generate Voice</title>
+  <link href="/public/assets/home.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a id='nav_button_generate' href="#">Generate</a></li>
+        <!-- <li><a href="#">Hisory</a></li> -->
+        <li><a id='nav_button_coin_counter_text' href="#">💰 Coins </a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleMenu()">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <div class="menu-items">
+    <ul>
+      <li id="generate"><a href="#">Generate</a></li>
+      <li id="buy-coins"><a href="#">Buy Coins</a></li>
+      <li id="logout"><a href="#">Logout</a></li>
+    </ul>
+  </div>
+  <!-- Generate Audio UI -->
+  <div id="generate-audio-ui">
+    <h1 class="content">Generate Voice</h1>
+    <form id="voiceForm" class="content">
+      <textarea id="paragraph" name="paragraph" rows="4" maxlength="1000" required></textarea>
+      <label id="text_counter" for="paragraph">Characters remaining: 1000</label>
+
+      <select id="voices" name="voices" required>
+
+      </select>
+      <input type="submit" id="submitButton" value="Submit" disabled>
+      <div id="audioContainer" style="margin-top: 20px;"></div>
+    </form>
+  </div>
+<!-- Purchase Coins -->
+  <div id="purchase-coins" class="content">
+    <h1 id="test-id">Pricing</h1>
+    <p class="green-text">$0.00056</p>
+    <p class="extra-small-text">Coins (1 token = 1 character)</p>
+  
+    <datalist id="tickmarks">
+      <option value="0" label="1000"></option>
+      <option value="100" label="10000"></option>
+    </datalist>
+    <input type="range" class="slider" min="1000" max="10000" step="1000" value="100"/>
+
+    <div>
+      <button id="coin-to-purchase" class="custom-button">Buy 1K Tokens $0.00056</button>
+    </div>
+   
+  </div>
+
+
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+  <script src="/public/assets/home_code.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqfo4NAE_bI6dCItZkR039RkxNtjZqT5c",
+      authDomain: "vocal-twin.firebaseapp.com",
+      projectId: "vocal-twin",
+      storageBucket: "vocal-twin.appspot.com",
+      messagingSenderId: "885350501809",
+      appId: "1:885350501809:web:9aa6e4ae06acf564bcc190",
+      measurementId: "G-NZYKJ651GP"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // firebase.auth();
+
+    // Check if a user is already logged in
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // User is logged in
+        console.log('User is logged in:', user.uid);
+
+        localStorage.setItem('uid', user.uid);
+        fetchUserDetails(user.uid);
+      } else {
+        // User is not logged in
+        console.log('User is not logged in');
+      }
+    });
+
+  </script>
+</body>
+
+</html>

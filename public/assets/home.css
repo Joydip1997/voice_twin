@@ -1,0 +1,236 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  padding-top: 80px;
+  background-color: #171617;
+  color: #ffffff;
+}
+
+h1 {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.content {
+  padding-left: 80px;
+}
+
+
+form {
+  max-width: 500px;
+  /* margin: 0 auto; */
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  resize: vertical;
+  margin-bottom: 10px;
+  background-color: #272726;
+  color: #ffffff;
+}
+
+select {
+  width: 100%;
+  margin-bottom: 30px;
+  background-color: #272726;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+input[type="submit"]:disabled {
+  background-color: #808080;
+  cursor: not-allowed;
+}
+
+/* Hamburger */
+
+.content {
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.content.shifted {
+  margin-left: 200px;
+}
+
+.hamburger {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.hamburger .line {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  margin-bottom: 5px;
+  transition: transform 0.3s ease;
+}
+
+.hamburger.open .line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open .line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.menu-items {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 55px;
+  width: 250px;
+  height: 100%;
+  background-color: #171617;
+  color: #ffffff;
+  z-index: 9998;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+}
+
+.hamburger.open~.content {
+  margin-left: 200px;
+}
+
+.hamburger.open~.menu-items {
+  background-color: #ffffff;
+  transform: translateX(0);
+}
+
+
+.menu-items ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 10px;
+}
+
+.menu-items li {
+  margin-bottom: 5px;
+}
+
+.menu-items a {
+  margin-left: 20px;
+  color: #171617;
+  text-decoration: none;
+}
+
+/* Nav Bar */
+
+header {
+  position: absolute;
+  top: 0px;
+  left: 50px;
+  width: 100%;
+  height: 25px;
+  background-color: #171617;
+  color: #fff;
+  padding: 20px;
+}
+
+h1 {
+  margin: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 20px;
+}
+
+
+nav ul li a:hover {
+  background-color: #272726;
+}
+
+
+/* Purchase-Coins Ui */
+
+.green-text {
+  font-size: 80px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: green;
+}
+
+.slider {
+  width: 30%;
+}
+
+datalist {
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
+  color: white;
+  width: 30%;
+}
+
+#purchase-coins {
+  display: none;
+}
+
+
+/* Custom Buy Coin Button */
+
+.custom-button {
+  border: 2px solid #ffffff;
+  padding: 10px 20px;
+  margin-top: 50px;
+  background-color: #171617;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+  background-color: #ffffff;
+  color: #171617;
+}

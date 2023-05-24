@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="google-signin-client_id"
+        content="885350501809-s3f5npvl5golohr39tm5jr4nvbnj8v73.apps.googleusercontent.com">
+    <title>Buy my Voice</title>
+    <link href="/public/assets/auth_css.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><a id="pricing" href="#">Pricing</a></li>
+          </ul>
+        </nav>
+      </header>
+    <div class="hamburger" onclick="toggleMenu()">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="menu-items">
+        <ul>
+            <li id="generate-audio"><a href="#">Generate</a></li>
+            <li id="buy-coins"><a href="#">Buy Coins</a></li>
+            <li id="login"><a href="#">Login</a></li>
+        </ul>
+    </div>
+    <div id="generate" class="content">
+        <h1>Buy my Voice</h1>
+        <ul class="paragraphs">
+            <li>🎧 Create Audio Files Using this AI Tool.</li>
+            <li>💰 Get 500 Tokens free to try it out.</li>
+            <li>🎙️ Use this AI to create audio podcast audios for your channel.</li>
+        </ul>
+        <h2 class="get-started">Get Started for Free</h2>
+        <div id="my-signin1"></div>
+    </div>
+
+    <div id="purchase-coins" class="content">
+        <h1 id="test-id">Pricing</h1>
+        <p class="green-text">$0.00056</p>
+        <p class="extra-small-text">Coins (1 token = 1 character)</p>
+
+        <datalist id="tickmarks">
+            <option value="0" label="1000"></option>
+            <option value="100" label="10000"></option>
+        </datalist>
+        <input type="range" class="slider" min="1000" max="10000" step="1000" value="100">
+        <p id="coin-to-purchase">Buy 1K Tokens $0.00056</p>
+        <div id="my-signin2"></div>
+    </div>
+
+    <button id="google-sign-in-btn" class="google-sign-in content">
+        <img src="https://freesvg.org/img/1534129544.png" alt="Google Logo" class="google-logo">
+        <span class="google-text">Sign in with Google</span>
+    </button>
+
+
+
+
+    
+    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
+    <script src="/public/assets/auth_code.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBqfo4NAE_bI6dCItZkR039RkxNtjZqT5c",
+            authDomain: "vocal-twin.firebaseapp.com",
+            projectId: "vocal-twin",
+            storageBucket: "vocal-twin.appspot.com",
+            messagingSenderId: "885350501809",
+            appId: "1:885350501809:web:9aa6e4ae06acf564bcc190",
+            measurementId: "G-NZYKJ651GP"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    
+        firebase.auth();
+
+        // Check if a user is already logged in
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                // User is logged in
+                console.log('User is logged in:', user.uid);
+                fetchUserDetails(user.uid);
+            } else {
+                // User is not logged in
+                console.log('User is not logged in');
+            }
+        });
+
+       
+
+
+
+    </script>
+
+
+</body>
+
+</html>

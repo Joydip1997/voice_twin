@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "885350501809",
+    "project_id": "vocal-twin",
+    "storage_bucket": "vocal-twin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885350501809:android:1e24e4ecbcb2d85dbcc190",
+        "android_client_info": {
+          "package_name": "com.vocaltwin.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885350501809-unk5n378iecp3q2hs94teclsank4331d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2vKvxlSw21tMSYGTYJfOpsKulKul9VRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885350501809-unk5n378iecp3q2hs94teclsank4331d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

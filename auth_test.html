@@ -1,0 +1,262 @@
+<html>
+
+<head>
+  <meta name="google-signin-client_id"
+    content="885350501809-dt27dmjgo94o6o1rr4pgs2oest3tu2da.apps.googleusercontent.com">
+</head>
+
+<body>
+  <div id="my-signin2"></div>
+  <script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+    function onFailure(error) {
+      console.log(error);
+    }
+    window.onload = function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  </script>
+
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="google-signin-client_id"
+    content="103974382695-2m0upe64tfj8e3iv2rtmblcj7m1gq6as.apps.googleusercontent.com">
+  <title>Buy my Voice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      padding-left: 80px;
+      background-color: #171617;
+      color: #ffffff;
+      transition: margin-left 0.3s ease;
+    }
+
+    .content {
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+    }
+
+    .content.shifted {
+      margin-left: 200px;
+    }
+
+    h1 {
+      text-align: left;
+      margin-bottom: 0px;
+      font-size: 50px;
+    }
+
+    .paragraphs {
+      list-style: none;
+      padding-left: 0;
+      font-size: 20px;
+    }
+
+    .paragraphs li {
+      margin-bottom: 15px;
+    }
+
+    .get-started {
+      text-align: left;
+      margin-top: 29px;
+      margin-bottom: 20px;
+      font-size: 30px;
+    }
+
+    .google-button {
+      display: inline-block;
+      background-color: #171617;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .google-button:hover {
+      background-color: #3367D6;
+    }
+
+    .hamburger {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 30px;
+      height: 25px;
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    .hamburger .line {
+      width: 100%;
+      height: 3px;
+      background-color: #ffffff;
+      margin-bottom: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .hamburger.open .line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open .line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open .line:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .menu-items {
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin-top: 55px;
+      width: 250px;
+      height: 100%;
+      background-color: #171617;
+      color: #ffffff;
+      z-index: 9998;
+      transition: transform 0.3s ease;
+      transform: translateX(-100%);
+    }
+
+    .hamburger.open~.content {
+      margin-left: 200px;
+    }
+
+    .hamburger.open~.menu-items {
+      background-color: #ffffff;
+      transform: translateX(0);
+    }
+
+
+    .menu-items ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 10px;
+    }
+
+    .menu-items li {
+      margin-bottom: 5px;
+    }
+
+    .menu-items a {
+      margin-left: 20px;
+      color: #171617;
+      text-decoration: none;
+    }
+
+    .green-text {
+      font-size: 80px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: green;
+    }
+
+    .slider {
+      width: 30%;
+    }
+
+    datalist {
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      width: 30%;
+    }
+
+    #purchase-coins {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hamburger" onclick="toggleMenu()">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <div class="menu-items">
+    <ul>
+      <li id="generate-audio"><a href="#">Generate</a></li>
+      <li id="buy-coins"><a href="#">Buy Coins</a></li>
+      <li id="login"><a href="#">Login</a></li>
+    </ul>
+  </div>
+  <div id="generate" class="content">
+    <h1>Buy my Voice</h1>
+    <ul class="paragraphs">
+      <li>👋 Create Audio Files Using this AI Tool.</li>
+      <li>😭 Get 500 Tokens free to try it out.</li>
+      <li>💵 Use this AI to create audio podcast audios for your channel.</li>
+    </ul>
+    <h2 class="get-started">Get Started for Free</h2>
+    <div id="my-signin2"></div>
+  </div>
+
+  <div id="purchase-coins" class="content">
+    <h1 id="test_id">Pricing</h1>
+    <p class="green-text">$0.00056</p>
+    <p class="extra-small-text">Coins (1 token = 1 character)</p>
+
+    <datalist id="tickmarks">
+      <option value="0" label="1000"></option>
+      <option value="100" label="10000"></option>
+    </datalist>
+    <input type="range" class="slider" min="1000" max="10000" step="1000" value="100">
+    <p id="coin-to-purchase">Buy 1K Tokens $0.00056</p>
+  </div>
+
+
+  <script src="index.js"></script>
+  <script>
+
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+    function onFailure(error) {
+      testId.textContent = error;
+    }
+
+
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+
+
+
+  </script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+</body>
+
+</html>
