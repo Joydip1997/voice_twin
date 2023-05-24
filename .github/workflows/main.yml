@@ -43,4 +43,4 @@ jobs:
             cd ~/voice_twin
             git pull origin main
             npm install --production
-            pm2 restart app.js
+            pm2 restart server.js
