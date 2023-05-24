@@ -40,7 +40,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /path/to/your/project
+            cd ~/voice_twin
             git pull origin main
             npm install --production
             pm2 restart app.js
