@@ -13,9 +13,9 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use('/public', express.static('public'));
 
-app.use(cors({
-  origin: 'http://www.vocaltwin.cloud'
-}));
+// app.use(cors({
+//   origin: 'http://www.vocaltwin.cloud'
+// }));
 
 var serviceAccount = require("./vocal-twin-firebase-adminsdk-4n3o0-c9eb8325f0.json");
 
@@ -170,7 +170,7 @@ function incrementCoins(userId, incrementBy) {
       .then((doc) => {
         if (doc.exists) {
           const currentCounter = doc.data().token;
-          const newCounter = currentCounter + incrementBy;
+          const newCounter = parseInt(currentCounter) + parseInt(incrementBy);
           transaction.update(userRef, { token: newCounter });
         } else {
           throw new Error('User document does not exist.');
@@ -234,18 +234,32 @@ app.post("/purchase", async (req, res) => {
 })
 
 app.post("/updateCoins", (req, res) => {
-  let userId = req.body.userId
-  let coinsUserPurchased = req.body.coinsUserPurchased
+  let userId = req.query.userId
+  let coinsUserPurchased = req.query.coinsUserPurchased
   incrementCoins(userId, coinsUserPurchased)
     .then(() => {
-      res.status(200).json({
-        "coins": coinsUserPurchased
-      })
+      res.render("home.ejs");
     })
     .catch((error) => {
       res.status(404).json(error)
     });
 })
+
+app.post('/payment-verification', (req, res) => {
+  const payment = req.body;
+  // Extract payment details from the payload
+  const payment_id = payment.payload.payment.entity.id;
+  const userId = payment.payload.payment.entity.notes.userId;
+  const coinsUserWantToPurchase = payment.payload.payment.entity.notes.coinsUserWantToPurchase;
+
+
+  console.log('User ID:', userId);
+  console.log('Custom Field:', coinsUserWantToPurchase);
+
+  // Call your API endpoint to update Firebase data
+  // ...
+  res.json(done)
+});
 
 
 app.listen(process.env.PORT || 7000, () => {

@@ -48,7 +48,7 @@ function fetchUserDetails(userId) {
 
 
     sumbitBtn.disabled = true;
-    const url = 'http://www.vocaltwin.cloud/getUserDetails?' + params.toString();
+    const url = 'http://localhost:7000/getUserDetails?' + params.toString();
 
 
     const requestOptions = {
@@ -88,7 +88,7 @@ function signOut() {
             document.head.innerHTML = '';
 
             // Navigate to another page
-            window.location.href = 'http://www.vocaltwin.cloud/auth';
+            window.location.href = 'http://localhost:7000/auth';
         }, 1000)
     }).catch(function (error) {
         // An error happened.
@@ -192,7 +192,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
     sumbitBtn.disabled = true;
     document.getElementById("voiceForm").appendChild(loadingText);
 
-    const apiUrl = 'http://www.vocaltwin.cloud/convertTextToAudio';
+    const apiUrl = 'http://localhost:7000/convertTextToAudio';
 
     // Query parameters
     const queryParams = {
@@ -250,7 +250,15 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
 
 
 coinToPurchase.onclick = function (e) {
-    fetch('http://vocaltwin.cloud/purchase', {
+    const params = new URLSearchParams();
+    params.append('userId', currentUserId);
+    params.append('coinsUserPurchased', coinsUserWantToPurchase);
+
+    sumbitBtn.disabled = true;
+    const url = 'http://localhost:7000/updateCoins?' + params.toString();
+
+
+    fetch('http://localhost:7000/purchase', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -267,16 +275,10 @@ coinToPurchase.onclick = function (e) {
                 "description": "Test Transaction",
                 "image": "https://example.com/your_logo",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
-                    updateCoinsInUserDataBase(userId, coinsUserWantToPurchase)
-                },
-                "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-                    "name": "Gaurav Kumar", //your customer's name
-                    "email": "gaurav.kumar@example.com",
-                    "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
-                },
+                "callback_url":url,
                 "notes": {
-                    "address": "Razorpay Corporate Office"
+                    "userId": currentUserId,
+                    "coinsUserWantToPurchase":coinsUserWantToPurchase
                 },
                 "theme": {
                     "color": "#3399cc"
@@ -305,7 +307,7 @@ coinToPurchase.onclick = function (e) {
 
 function updateCoinsInUserDataBase(userId, coinsUserPurchased, paymentReciept) {
     alert("SUCCESS");
-    fetch('http://vocaltwin.cloud/updateCoins', {
+    fetch('http://localhost:7000/updateCoins', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
