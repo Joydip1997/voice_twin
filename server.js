@@ -76,7 +76,7 @@ app.get('/getUserDetails', (req, res) => {
         })
       }
     }).catch((error) => {
-      res.status(500).json({
+      res.status(404).json({
         success: false,
         token: 0,
         error:error
