@@ -195,8 +195,8 @@ async function fetchAvailableToken(userId) {
 }
 
 
-app.get("/test", (req, res) => {
-  res.status(200).json(123)
+app.post("/home", (req, res) => {
+  res.render("home.ejs");
 })
 
 app.post("/purchase", async (req, res) => {
