@@ -62,10 +62,12 @@ function fetchUserDetails(userId) {
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(data => {
-        
-            currentTokenCount = parseInt(data)
-            textCounter.textContent = "Characters remaining: " + currentTokenCount;
-            navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
+            if (data.success == true) {
+                let token = data.token
+                currentTokenCount = parseInt(token)
+                textCounter.textContent = "Characters remaining: " + currentTokenCount;
+                navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
+            }
         })
         .catch(error => {
             // Handle any errors
