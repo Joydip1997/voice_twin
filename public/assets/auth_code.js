@@ -57,10 +57,10 @@ navButtonPricing.addEventListener('click', function () {
     ui2.style.display = "block"; // Enable UI 2
 });
 
-function fetchUserDetails(uid) {
+function fetchUserDetails(userId) {
     // Define query parameters
     const params = new URLSearchParams();
-    params.append('userId', uid);
+    params.append('userId', userId);
 
 
     // Build the URL with query parameters
@@ -132,8 +132,8 @@ function signinWitthGoogle() {
         .then((result) => {
             // User signed in successfully
             const user = result.user;
-            const uid = user.uid
-            fetchUserDetails(uid)
+            const userId = user.uid
+            fetchUserDetails(userId)
         })
         .catch((error) => {
             // Handle sign-in errors
