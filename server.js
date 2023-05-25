@@ -69,6 +69,8 @@ app.get('/getUserDetails', (req, res) => {
       } else {
         res.status(404).json('No such document!')
       }
+    }) .catch((error) => {
+      res.status(404).json(error)
     });
 })
 
