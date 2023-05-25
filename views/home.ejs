@@ -93,7 +93,7 @@
         // User is logged in
         console.log('User is logged in:', user.uid);
 
-        localStorage.setItem('uid', user.uid);
+        localStorage.setItem('userId', user.uid);
         fetchUserDetails(user.uid);
       } else {
         // User is not logged in

@@ -45,7 +45,7 @@ app.get('/home', (req, res) => {
 app.post('/register', (req, res) => {
   const userId = req.query.userId
   db.collection('users').doc(userId).set({
-    uid: userId,
+    userId: userId,
     token: 500
   })
     .then((docRef) => {
@@ -75,12 +75,11 @@ app.get('/getUserDetails', (req, res) => {
 })
 
 app.get('/convertTextToAudio', async (req, res) => {
-  const uid = req.query.uid
-  console.log(uid)
+  const userId = req.query.userId
   const paragraph = req.query.paragraph
   const selectedVoice = req.query.selectedVoice
 
-  const token = await fetchAvailableToken(uid);
+  const token = await fetchAvailableToken(userId);
 
   if (paragraph.length > token) {
     res.status(404).json("buy tokens")
@@ -114,7 +113,7 @@ app.get('/convertTextToAudio', async (req, res) => {
   })
     .then(apiRes => {
       const decrementBy = paragraph.length;
-      decrementCoins(uid, decrementBy)
+      decrementCoins(userId, decrementBy)
         .then(() => {
           res.status(200).send(apiRes.data);
         })
@@ -130,10 +129,8 @@ app.get('/convertTextToAudio', async (req, res) => {
     });
 })
 
-function decrementCoins(uid, decrementBy) {
-  console.log(uid)
-  console.log(decrementBy)
-  const userRef = db.collection('users').doc(uid);
+function decrementCoins(userId, decrementBy) {
+  const userRef = db.collection('users').doc(userId);
 
   return db.runTransaction((transaction) => {
     return transaction.get(userRef)
@@ -149,8 +146,8 @@ function decrementCoins(uid, decrementBy) {
   });
 }
 
-function incrementCoins(uid, incrementBy) {
-  const userRef = db.collection('users').doc(uid);
+function incrementCoins(userId, incrementBy) {
+  const userRef = db.collection('users').doc(userId);
 
   return db.runTransaction((transaction) => {
     return transaction.get(userRef)
@@ -166,9 +163,9 @@ function incrementCoins(uid, incrementBy) {
   });
 }
 
-async function fetchAvailableToken(uid) {
+async function fetchAvailableToken(userId) {
   try {
-    const doc = await db.collection('users').doc(uid).get();
+    const doc = await db.collection('users').doc(userId).get();
 
     if (doc.exists) {
       const token = doc.data().token;

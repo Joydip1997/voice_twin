@@ -41,10 +41,10 @@ function toggleMenu() {
 
 
 
-function fetchUserDetails(uid) {
-    currentUserId = uid
+function fetchUserDetails(userId) {
+    currentUserId = userId
     const params = new URLSearchParams();
-    params.append('uid', uid);
+    params.append('userId', userId);
 
 
     sumbitBtn.disabled = true;
@@ -172,7 +172,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
 
 
     // Retrieving data from localStorage
-    const storedData = localStorage.getItem('uid');
+    const storedData = localStorage.getItem('userId');
     let userId
 
 
@@ -196,7 +196,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
     const queryParams = {
         selectedVoice: selectedVoice,
         paragraph: paragraph,
-        uid: userId
+        userId: userId
     };
 
     // Construct the query string
@@ -250,7 +250,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
 coinToPurchase.onclick = function (e) {
 
     let userId
-    const storedData = localStorage.getItem('uid');
+    const storedData = localStorage.getItem('userId');
     if (storedData) {
         userId = storedData;
     } else {
