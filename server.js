@@ -194,32 +194,32 @@ app.post("/purchase", async (req, res) => {
 
   let costPerCoin = 0.042
   let totalCost = coinsUserWantToPurchase * costPerCoin
+  res.status(201).json(totalCost)
 
+  // var instance = new Razorpay({ key_id: 'rzp_test_RYO9l0r3IOg3Ia', key_secret: 'nx7RdpgXtbjCpK1N4nF73LSC' })
 
-  var instance = new Razorpay({ key_id: 'rzp_test_RYO9l0r3IOg3Ia', key_secret: 'nx7RdpgXtbjCpK1N4nF73LSC' })
+  // try {
+  //   let order = await instance.orders.create({
+  //     amount: totalCost * 100,
+  //     currency: "INR",
+  //     receipt: "receipt#1",
+  //     notes: {
+  //       key1: "value3",
+  //       key2: "value2"
+  //     }
+  //   })
 
-  try {
-    let order = await instance.orders.create({
-      amount: totalCost * 100,
-      currency: "INR",
-      receipt: "receipt#1",
-      notes: {
-        key1: "value3",
-        key2: "value2"
-      }
-    })
+  //   res.status(201).json({
+  //     "success": true,
+  //     "order": order
+  //   })
+  // } catch (error) {
 
-    res.status(201).json({
-      "success": true,
-      "order": order
-    })
-  } catch (error) {
-
-    res.status(404).json({
-      "success": false,
-      "error": error
-    })
-  }
+  //   res.status(404).json({
+  //     "success": false,
+  //     "error": error
+  //   })
+  // }
 
 })
 

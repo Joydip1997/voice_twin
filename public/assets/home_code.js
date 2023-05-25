@@ -249,18 +249,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
 
 
 
-coinToPurchase.onclick = function (e) {
-
-    let userId
-    const storedData = localStorage.getItem('userId');
-    if (storedData) {
-        userId = storedData;
-    } else {
-        console.log('No data found in localStorage.');
-    }
-
-
-
+coinToPurchase.onclick = function () {
 
     fetch('http://vocaltwin.cloud/purchase', {
         method: 'POST',
