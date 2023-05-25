@@ -17,6 +17,9 @@ var buyCoinsUi = document.getElementById("purchase-coins");
 var slider = document.querySelector('.slider');
 var coinToPurchase = document.getElementById('coin-to-purchase');
 
+var voiceForm = document.getElementById("voiceForm")
+var voicesSelect = document.getElementById("voices");
+
 navButtonGenerateAudio.addEventListener('click', function () {
     generateAudioUi.style.display = "block";
     buyCoinsUi.style.display = "none";
@@ -41,14 +44,14 @@ function toggleMenu() {
 
 
 
-function fetchUserDetails(userId) {
+function fetchUserDetails(userId,baseUrl) {
     currentUserId = userId
     const params = new URLSearchParams();
     params.append('userId', userId);
 
 
     sumbitBtn.disabled = true;
-    const url = 'http://www.vocaltwin.cloud/getUserDetails?' + params.toString();
+    const url = baseUrl +'/getUserDetails?' + params.toString();
 
 
     const requestOptions = {
@@ -58,7 +61,6 @@ function fetchUserDetails(userId) {
         },
     };
 
-    // Make the fetch request with query parameters
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(data => {
@@ -108,7 +110,7 @@ logout.addEventListener("click", function () {
 })
 
 
-document.getElementById("voiceForm").addEventListener("input", function (event) {
+voiceForm.addEventListener("input", function (event) {
 
     var paragraph = document.getElementById("paragraph").value;
     var selectedVoice = document.getElementById("voices").value;
@@ -125,23 +127,18 @@ document.getElementById("voiceForm").addEventListener("input", function (event) 
     }
 });
 
-const voicesSelect = document.getElementById("voices");
+
 
 window.onload = function () {
     // Fetch the list of voices from the API
-    fetch("https://api.elevenlabs.io/v1/voices", {
-        headers: {
-            "Content-Type": "application/json",
-            "xi-api-key": "046b09bfa501c8aab5bb53af9d0f6511"
-        }
-    })
+    fetch("http://www.vocaltwin.cloud/availableVoices")
         .then(response => response.json())
-        .then(data => {
+        .then(voices => {
             // Get the select element
 
 
             // Loop through the voice data and create options for the select element
-            data.voices.forEach(voice => {
+            voices.forEach(voice => {
                 // Create an option element
                 const option = document.createElement("option");
 

@@ -23,20 +23,18 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-
-
-
-
-
 const db = admin.firestore();
+
+
+
+
+
 
 
 app.get('', (req, res) => {
   // Render the 'index.ejs' file
   res.render("auth.ejs");
 });
-
-
 
 app.get('/auth', (req, res) => {
   // Render the 'index.ejs' file
@@ -47,6 +45,13 @@ app.get('/home', (req, res) => {
   // Render the 'index.ejs' file
   res.render("home.ejs");
 });
+
+app.post("/home", (req, res) => {
+  res.render("home.ejs");
+})
+
+
+// Firebase DB Calls
 
 app.post('/register', (req, res) => {
   const userId = req.query.userId
@@ -90,6 +95,34 @@ app.get('/getUserDetails', (req, res) => {
     });
 })
 
+app.post("/updateCoins", (req, res) => {
+  let userId = req.query.userId
+  let coinsUserPurchased = req.query.coinsUserPurchased
+  incrementCoins(userId, coinsUserPurchased)
+    .then(() => {
+      res.render("home.ejs");
+    })
+    .catch((error) => {
+      res.status(404).json(error)
+    });
+})
+
+async function fetchAvailableToken(userId) {
+  try {
+    const doc = await db.collection('users').doc(userId).get();
+
+    if (doc.exists) {
+      const token = doc.data().token;
+      return parseInt(token);
+    } else {
+      return 0
+    }
+  } catch (error) {
+    return 0
+  }
+}
+
+// Eleven Api Calls
 app.get('/convertTextToAudio', async (req, res) => {
   const userId = req.query.userId
   const paragraph = req.query.paragraph
@@ -145,6 +178,23 @@ app.get('/convertTextToAudio', async (req, res) => {
     });
 })
 
+app.get('/availableVoices', (req, res) => {
+  axios.get("https://api.elevenlabs.io/v1/voices", {
+    headers: {
+      "Content-Type": "application/json",
+      "xi-api-key": process.env.API_KEY
+    }
+  })
+    .then(apiRes => {
+     res.status(200).json(apiRes.voices)
+    })
+    .catch(error => {
+      res.status(404).send(error);
+    });
+})
+
+
+// Utils
 function decrementCoins(userId, decrementBy) {
   const userRef = db.collection('users').doc(userId);
 
@@ -179,25 +229,8 @@ function incrementCoins(userId, incrementBy) {
   });
 }
 
-async function fetchAvailableToken(userId) {
-  try {
-    const doc = await db.collection('users').doc(userId).get();
 
-    if (doc.exists) {
-      const token = doc.data().token;
-      return parseInt(token);
-    } else {
-      return 0
-    }
-  } catch (error) {
-    return 0
-  }
-}
-
-
-app.post("/home", (req, res) => {
-  res.render("home.ejs");
-})
+// Razorpay Paymnt SDK
 
 app.post("/purchase", async (req, res) => {
   let coinsUserWantToPurchase = req.body.coinsUserWantToPurchase
@@ -231,18 +264,6 @@ app.post("/purchase", async (req, res) => {
     })
   }
 
-})
-
-app.post("/updateCoins", (req, res) => {
-  let userId = req.query.userId
-  let coinsUserPurchased = req.query.coinsUserPurchased
-  incrementCoins(userId, coinsUserPurchased)
-    .then(() => {
-      res.render("home.ejs");
-    })
-    .catch((error) => {
-      res.status(404).json(error)
-    });
 })
 
 app.post('/payment-verification', (req, res) => {
