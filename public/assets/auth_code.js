@@ -94,7 +94,7 @@ function fetchUserDetails(userId) {
         .catch(error => {
             // Handle any errors
             console.error("NEW USER");
-           
+            registerNewUser(uid)
         });
 
 }
