@@ -60,7 +60,7 @@ navButtonPricing.addEventListener('click', function () {
 function fetchUserDetails(uid) {
     // Define query parameters
     const params = new URLSearchParams();
-    params.append('uid', uid);
+    params.append('userId', uid);
 
 
     // Build the URL with query parameters
@@ -89,16 +89,16 @@ function fetchUserDetails(uid) {
         })
         .catch(error => {
             // Handle any errors
-            console.error(error);
+            console.error("NEW USER");
             registerNewUser(uid)
         });
 
 }
 
-function registerNewUser(uid) {
+function registerNewUser(userId) {
     // Define query parameters
     const params = new URLSearchParams();
-    params.append('uid', uid);
+    params.append('userId', userId);
 
 
     // Build the URL with query parameters

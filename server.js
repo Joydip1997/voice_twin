@@ -43,22 +43,22 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  const uid = req.query.uid
-  db.collection('users').doc(uid).set({
-    uid: uid,
+  const userId = req.query.userId
+  db.collection('users').doc(userId).set({
+    uid: userId,
     token: 500
   })
     .then((docRef) => {
-      console.log('Document written with ID: ', docRef.id);
+      res.status(201).json({success:true})
     })
     .catch((error) => {
-      console.error('Error adding document: ', error);
+      res.status(404).json({success:true,error:error})
     });
 })
 
 app.get('/getUserDetails', (req, res) => {
-  const uid = req.query.uid
-  db.collection('users').doc(uid).get()
+  const userId = req.query.userId
+  db.collection('users').doc(userId).get()
     .then(doc => {
       if (doc.exists) {
 
