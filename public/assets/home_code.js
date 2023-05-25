@@ -249,61 +249,57 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
 
 
 
-coinToPurchase.onclick = function () {
-
-
-    // Prepare the request options
-    const requestOptions = {
-        method: 'GET',
+coinToPurchase.onclick = function (e) {
+    fetch('http://vocaltwin.cloud/purchase', {
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json',
         },
-    };
-
-    fetch('http://vocaltwin.cloud/test', requestOptions)
+        body: JSON.stringify({ coinsUserWantToPurchase }),
+    })
         .then(response => response.json())
         .then(data => {
             // Handle the response from the server
-            console.log(data);
-            // var options = {
-            //     "key": "rzp_test_RYO9l0r3IOg3Ia", // Enter the Key ID generated from the Dashboard
-            //     "amount": data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            //     "currency": "INR",
-            //     "name": "Acme Corp", //your business name
-            //     "description": "Test Transaction",
-            //     "image": "https://example.com/your_logo",
-            //     "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            //     "handler": function (response) {
-            //         updateCoinsInUserDataBase(userId, coinsUserWantToPurchase)
-            //     },
-            //     "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-            //         "name": "Gaurav Kumar", //your customer's name
-            //         "email": "gaurav.kumar@example.com",
-            //         "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
-            //     },
-            //     "notes": {
-            //         "address": "Razorpay Corporate Office"
-            //     },
-            //     "theme": {
-            //         "color": "#3399cc"
-            //     }
-            // };
-            // var rzp1 = new Razorpay(options);
-            // rzp1.on('payment.failed', function (response) {
-            //     alert(response.error.code);
-            //     alert(response.error.description);
-            //     alert(response.error.source);
-            //     alert(response.error.step);
-            //     alert(response.error.reason);
-            //     alert(response.error.metadata.order_id);
-            //     alert(response.error.metadata.payment_id);
-            // });
-            // rzp1.open();
-            // e.preventDefault();
+            console.log(da);
+            var options = {
+                "key": "rzp_test_RYO9l0r3IOg3Ia", // Enter the Key ID generated from the Dashboard
+                "amount": data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Acme Corp", //your business name
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+                    updateCoinsInUserDataBase(userId, coinsUserWantToPurchase)
+                },
+                "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+                    "name": "Gaurav Kumar", //your customer's name
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+            });
+            rzp1.open();
+            e.preventDefault();
         })
         .catch(error => {
             // Handle any errors that occurred during the request
-            console.error('1234:', error);
+            console.error('Error:', error);
         });
 }
 

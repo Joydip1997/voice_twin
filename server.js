@@ -1,6 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const Razorpay = require('razorpay');
+const cors = require('cors');
+
 require('dotenv').config();
 
 
@@ -10,6 +12,12 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use('/public', express.static('public'));
+
+app.use(cors({
+  origin: 'http://localhost:7000',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 var serviceAccount = require("./vocal-twin-firebase-adminsdk-4n3o0-c9eb8325f0.json");
 
@@ -79,7 +87,7 @@ app.get('/getUserDetails', (req, res) => {
       res.status(404).json({
         success: false,
         token: 0,
-        error:error
+        error: error
       })
     });
 })
@@ -189,18 +197,18 @@ async function fetchAvailableToken(userId) {
 }
 
 
-app.get("/test",(req,res)=>{
+app.get("/test", (req, res) => {
   res.status(200).json(123)
 })
 
-app.post("/purchase",  async(req, res) => {
+app.post("/purchase", async (req, res) => {
   let coinsUserWantToPurchase = req.body.coinsUserWantToPurchase
 
   let costPerCoin = 0.042
   let totalCost = coinsUserWantToPurchase * costPerCoin
 
 
-   var instance = new Razorpay({ key_id: 'rzp_test_RYO9l0r3IOg3Ia', key_secret: 'nx7RdpgXtbjCpK1N4nF73LSC' })
+  var instance = new Razorpay({ key_id: 'rzp_test_RYO9l0r3IOg3Ia', key_secret: 'nx7RdpgXtbjCpK1N4nF73LSC' })
 
   try {
     let order = await instance.orders.create({
