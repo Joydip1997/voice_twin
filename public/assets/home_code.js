@@ -267,6 +267,7 @@ coinToPurchase.onclick = function (e) {
                 "name": "Acme Corp", //your business name
                 "description": "Test Transaction",
                 "image": "https://example.com/your_logo",
+                "callback_url":"http://www.vocaltwin.cloud/home",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "notes": {
                     "userId": currentUserId,
@@ -297,27 +298,4 @@ coinToPurchase.onclick = function (e) {
 
 
 
-function updateCoinsInUserDataBase(userId, coinsUserPurchased, paymentReciept) {
-    alert("SUCCESS");
-    fetch('http://www.vocaltwin.cloud/updateCoins', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, coinsUserPurchased }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Update The Screen
-            generateAudioUi.style.display = "block";
-            buyCoinsUi.style.display = "none";
-            //Update Current Coin
-            currentTokenCount = data.coins
-            // Update The UI
-            textCounter.textContent = "Characters remaining: " + currentTokenCount;
-            navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
-        })
-        .catch(error => {
 
-        });
-}
