@@ -49,10 +49,10 @@ app.post('/register', (req, res) => {
     token: 500
   })
     .then((docRef) => {
-      res.status(201).json({success:true})
+      res.status(201).json({ success: true })
     })
     .catch((error) => {
-      res.status(404).json({success:true,error:error})
+      res.status(404).json({ success: true, error: error })
     });
 })
 
@@ -63,14 +63,24 @@ app.get('/getUserDetails', (req, res) => {
       if (doc.exists) {
 
         const token = doc.data().token;
-        res.status(200).json(token);
+        res.status(200).json({
+          success: true,
+          token: token
+        });
 
 
       } else {
-        throw new Error('User document does not exist.');
+        res.status(404).json({
+          success: false,
+          token: 0
+        })
       }
-    }) .catch((error) => {
-      throw new Error('User document does not exist.');
+    }).catch((error) => {
+      res.status(500).json({
+        success: false,
+        token: 0,
+        error:error
+      })
     });
 })
 
@@ -219,9 +229,9 @@ app.post("/updateCoins", (req, res) => {
   let coinsUserPurchased = req.body.coinsUserPurchased
   incrementCoins(userId, coinsUserPurchased)
     .then(() => {
-        res.status(200).json({
-          "coins":coinsUserPurchased
-        })
+      res.status(200).json({
+        "coins": coinsUserPurchased
+      })
     })
     .catch((error) => {
       res.status(404).json(error)

@@ -80,17 +80,21 @@ function fetchUserDetails(userId) {
         .then(data => {
             // Handle the response data
             console.log(data);
-            // Remove previous page's HTML and CSS
-            document.body.innerHTML = '';
-            document.head.innerHTML = '';
+            if (data.success == true) {
+                // Remove previous page's HTML and CSS
+                document.body.innerHTML = '';
+                document.head.innerHTML = '';
 
-            // Navigate to another page
-            window.location.href = 'http://www.vocaltwin.cloud/home';
+                // Navigate to another page
+                window.location.href = 'http://www.vocaltwin.cloud/home';
+            }else{
+                registerNewUser(uid)
+            }
         })
         .catch(error => {
             // Handle any errors
             console.error("NEW USER");
-            registerNewUser(uid)
+           
         });
 
 }
