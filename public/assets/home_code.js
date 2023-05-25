@@ -1,5 +1,6 @@
 
-var currentTokenCount = 100
+var currentTokenCount = 0
+var coinsUserWantToPurchase = 0
 var currentUserId = ""
 
 
@@ -17,7 +18,7 @@ var slider = document.querySelector('.slider');
 var coinToPurchase = document.getElementById('coin-to-purchase');
 
 navButtonGenerateAudio.addEventListener('click', function () {
-    generateAudioUi.style.display = "block"; 
+    generateAudioUi.style.display = "block";
     buyCoinsUi.style.display = "none";
 });
 
@@ -27,8 +28,9 @@ navButtonCoinCounterText.addEventListener('click', function () {
 });
 
 slider.addEventListener('input', function () {
+    coinsUserWantToPurchase = slider.value
     var coins = slider.value / 1000
-    var price = (slider.value * 0.00056).toFixed(2)
+    var price = (slider.value * 0.042).toFixed(2)
     coinToPurchase.textContent = 'Buy ' + coins + 'K Coins $' + price;
 });
 
@@ -60,8 +62,7 @@ function fetchUserDetails(uid) {
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(data => {
-            // Handle the response data
-            console.log(data);
+        
             currentTokenCount = parseInt(data)
             textCounter.textContent = "Characters remaining: " + currentTokenCount;
             navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
@@ -241,3 +242,99 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
         });
 });
 
+
+
+
+
+
+coinToPurchase.onclick = function (e) {
+
+    let userId
+    const storedData = localStorage.getItem('uid');
+    if (storedData) {
+        userId = storedData;
+    } else {
+        console.log('No data found in localStorage.');
+    }
+
+
+
+
+    fetch('http://localhost:7000/purchase', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, coinsUserWantToPurchase }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the server
+            console.log(coinsUserWantToPurchase);
+            var options = {
+                "key": "rzp_test_RYO9l0r3IOg3Ia", // Enter the Key ID generated from the Dashboard
+                "amount": data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Acme Corp", //your business name
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+                    updateCoinsInUserDataBase(userId, coinsUserWantToPurchase)
+                },
+                "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+                    "name": "Gaurav Kumar", //your customer's name
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+            });
+            rzp1.open();
+            e.preventDefault();
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Error:', error);
+        });
+}
+
+
+
+function updateCoinsInUserDataBase(userId, coinsUserPurchased, paymentReciept) {
+    fetch('http://localhost:7000/updateCoins', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, coinsUserPurchased }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Update The Screen
+            generateAudioUi.style.display = "block";
+            buyCoinsUi.style.display = "none";
+            //Update Current Coin
+            currentTokenCount = data.coins
+            // Update The UI
+            textCounter.textContent = "Characters remaining: " + currentTokenCount;
+            navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
+        })
+        .catch(error => {
+
+        });
+}

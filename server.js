@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const Razorpay = require('razorpay');
 require('dotenv').config();
 
 
@@ -71,7 +72,7 @@ app.get('/getUserDetails', (req, res) => {
     });
 })
 
-app.get('/convertTextToAudio', async(req, res) => {
+app.get('/convertTextToAudio', async (req, res) => {
   const uid = req.query.uid
   console.log(uid)
   const paragraph = req.query.paragraph
@@ -79,7 +80,7 @@ app.get('/convertTextToAudio', async(req, res) => {
 
   const token = await fetchAvailableToken(uid);
 
-  if(paragraph.length > token){
+  if (paragraph.length > token) {
     res.status(404).json("buy tokens")
   }
 
@@ -110,15 +111,15 @@ app.get('/convertTextToAudio', async(req, res) => {
     }
   })
     .then(apiRes => {
-      const decrementBy = paragraph.length; 
-      decrementCounter(uid, decrementBy)
+      const decrementBy = paragraph.length;
+      decrementCoins(uid, decrementBy)
         .then(() => {
           res.status(200).send(apiRes.data);
         })
         .catch((error) => {
           res.status(404).json(error)
         });
-      
+
     })
     .catch(error => {
       // Handle any errors that occurred during the API call
@@ -127,7 +128,7 @@ app.get('/convertTextToAudio', async(req, res) => {
     });
 })
 
-function decrementCounter(uid, decrementBy) {
+function decrementCoins(uid, decrementBy) {
   console.log(uid)
   console.log(decrementBy)
   const userRef = db.collection('users').doc(uid);
@@ -146,7 +147,24 @@ function decrementCounter(uid, decrementBy) {
   });
 }
 
-async function fetchAvailableToken(uid){
+function incrementCoins(uid, incrementBy) {
+  const userRef = db.collection('users').doc(uid);
+
+  return db.runTransaction((transaction) => {
+    return transaction.get(userRef)
+      .then((doc) => {
+        if (doc.exists) {
+          const currentCounter = doc.data().token;
+          const newCounter = currentCounter + incrementBy;
+          transaction.update(userRef, { token: newCounter });
+        } else {
+          throw new Error('User document does not exist.');
+        }
+      });
+  });
+}
+
+async function fetchAvailableToken(uid) {
   try {
     const doc = await db.collection('users').doc(uid).get();
 
@@ -162,8 +180,54 @@ async function fetchAvailableToken(uid){
 }
 
 
+app.post("/purchase", async (req, res) => {
+  let userId = req.body.userId
+  let coinsUserWantToPurchase = req.body.coinsUserWantToPurchase
+
+  let costPerCoin = 0.042
+  let totalCost = coinsUserWantToPurchase * costPerCoin
 
 
+  var instance = new Razorpay({ key_id: 'rzp_test_RYO9l0r3IOg3Ia', key_secret: 'nx7RdpgXtbjCpK1N4nF73LSC' })
+
+  try {
+    let order = await instance.orders.create({
+      amount: totalCost * 100,
+      currency: "INR",
+      receipt: "receipt#1",
+      notes: {
+        key1: "value3",
+        key2: "value2"
+      }
+    })
+
+    res.status(201).json({
+      "success": true,
+      "order": order
+    })
+  } catch (error) {
+
+    res.status(404).json({
+      "success": false,
+      "error": error
+    })
+  }
+
+})
+
+app.post("/updateCoins", (req, res) => {
+  let userId = req.body.userId
+  let coinsUserPurchased = req.body.coinsUserPurchased
+  incrementCoins(userId, coinsUserPurchased)
+    .then(() => {
+        res.status(200).json({
+          "coins":coinsUserPurchased
+        })
+    })
+    .catch((error) => {
+      res.status(404).json(error)
+    });
+})
 
 
 app.listen(process.env.PORT || 7000, () => {
