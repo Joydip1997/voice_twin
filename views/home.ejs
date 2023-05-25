@@ -50,10 +50,10 @@
     <p class="extra-small-text">Coins (1 token = 1 character)</p>
   
     <datalist id="tickmarks">
-      <option value="0" label="1000"></option>
-      <option value="100" label="10000"></option>
+      <option value="0" label="100"></option>
+      <option value="100" label="1000"></option>
     </datalist>
-    <input type="range" class="slider" min="1000" max="10000" step="1000" value="100"/>
+    <input type="range" class="slider" min="100" max="1000" step="10" value="100"/>
 
     <div>
       <button id="coin-to-purchase" class="custom-button">Buy 1K Tokens $0.00056</button>
@@ -73,6 +73,7 @@
   <script src="/public/assets/home_code.js"></script>
   <script>
     // Your web app's Firebase configuration
+    
     const firebaseConfig = {
       apiKey: "AIzaSyBqfo4NAE_bI6dCItZkR039RkxNtjZqT5c",
       authDomain: "vocal-twin.firebaseapp.com",
@@ -94,7 +95,7 @@
         console.log('User is logged in:', user.uid);
 
         localStorage.setItem('userId', user.uid);
-        fetchUserDetails(user.uid);
+        fetchUserDetails(user.uid,"http://vocaltwin.cloud");
       } else {
         // User is not logged in
         console.log('User is not logged in');

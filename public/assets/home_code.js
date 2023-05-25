@@ -1,6 +1,6 @@
 
 var currentTokenCount = 0
-var coinsUserWantToPurchase = 0
+var coinsUserWantToPurchase = 100
 var currentUserId = ""
 
 
@@ -32,7 +32,7 @@ navButtonCoinCounterText.addEventListener('click', function () {
 
 slider.addEventListener('input', function () {
     coinsUserWantToPurchase = slider.value
-    var coins = slider.value / 1000
+    var coins = slider.value / 100
     var price = (slider.value * 0.042).toFixed(2)
     coinToPurchase.textContent = 'Buy ' + coins + 'K Coins $' + price;
 });
