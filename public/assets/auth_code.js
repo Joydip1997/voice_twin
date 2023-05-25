@@ -88,13 +88,13 @@ function fetchUserDetails(userId) {
                 // Navigate to another page
                 window.location.href = 'http://www.vocaltwin.cloud/home';
             }else{
-                registerNewUser(uid)
+                registerNewUser(userId)
             }
         })
         .catch(error => {
             // Handle any errors
             console.error("NEW USER");
-            registerNewUser(uid)
+            registerNewUser(userId)
         });
 
 }
