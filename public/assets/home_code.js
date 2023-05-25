@@ -268,7 +268,8 @@ coinToPurchase.onclick = function (e) {
                 "image": "https://example.com/your_logo",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response) {
-                    updateCoinsInUserDataBase(userId, coinsUserWantToPurchase)
+                    alert("SUCCESS");
+                   // updateCoinsInUserDataBase(userId, coinsUserWantToPurchase)
                 },
                 "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
                     "name": "Gaurav Kumar", //your customer's name
