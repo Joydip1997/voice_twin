@@ -251,13 +251,16 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
 
 coinToPurchase.onclick = function () {
 
-    fetch('http://vocaltwin.cloud/purchase', {
-        method: 'POST',
+
+    // Prepare the request options
+    const requestOptions = {
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({ coinsUserWantToPurchase }),
-    })
+    };
+
+    fetch('http://vocaltwin.cloud/test', requestOptions)
         .then(response => response.json())
         .then(data => {
             // Handle the response from the server
@@ -300,7 +303,7 @@ coinToPurchase.onclick = function () {
         })
         .catch(error => {
             // Handle any errors that occurred during the request
-            console.error('Error:', error);
+            console.error('1234:', error);
         });
 }
 
