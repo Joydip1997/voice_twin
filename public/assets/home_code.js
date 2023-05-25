@@ -262,7 +262,7 @@ coinToPurchase.onclick = function (e) {
 
 
 
-    fetch('http://localhost:7000/purchase', {
+    fetch('http://vocaltwin.cloud/purchase', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -318,7 +318,7 @@ coinToPurchase.onclick = function (e) {
 
 
 function updateCoinsInUserDataBase(userId, coinsUserPurchased, paymentReciept) {
-    fetch('http://localhost:7000/updateCoins', {
+    fetch('http://vocaltwin.cloud/updateCoins', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
