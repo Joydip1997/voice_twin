@@ -131,14 +131,19 @@ voiceForm.addEventListener("input", function (event) {
 
 window.onload = function () {
     // Fetch the list of voices from the API
-    fetch("http://www.vocaltwin.cloud/availableVoices")
+    fetch("https://api.elevenlabs.io/v1/voices", {
+        headers: {
+            "Content-Type": "application/json",
+            "xi-api-key": "046b09bfa501c8aab5bb53af9d0f6511"
+        }
+    })
         .then(response => response.json())
-        .then(voices => {
+        .then(data => {
             // Get the select element
 
 
             // Loop through the voice data and create options for the select element
-            voices.forEach(voice => {
+            data.voices.forEach(voice => {
                 // Create an option element
                 const option = document.createElement("option");
 

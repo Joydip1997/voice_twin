@@ -184,8 +184,7 @@ app.get('/availableVoices', (req, res) => {
       "Content-Type": "application/json",
       "xi-api-key": process.env.API_KEY
     }
-  })
-    .then(apiRes => {
+  }).then(apiRes => {
      res.status(200).json(apiRes.voices)
     })
     .catch(error => {
