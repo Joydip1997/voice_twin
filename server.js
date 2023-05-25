@@ -13,9 +13,9 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use('/public', express.static('public'));
 
-// app.use(cors({
-//   origin: 'http://www.vocaltwin.cloud'
-// }));
+app.use(cors({
+  origin: 'http://www.vocaltwin.cloud'
+}));
 
 var serviceAccount = require("./vocal-twin-firebase-adminsdk-4n3o0-c9eb8325f0.json");
 
@@ -253,12 +253,13 @@ app.post('/payment-verification', (req, res) => {
   const coinsUserWantToPurchase = payment.payload.payment.entity.notes.coinsUserWantToPurchase;
 
 
-  console.log('User ID:', userId);
-  console.log('Custom Field:', coinsUserWantToPurchase);
-
-  // Call your API endpoint to update Firebase data
-  // ...
-  res.json(done)
+  incrementCoins(userId, coinsUserWantToPurchase)
+    .then(() => {
+      res.render("home.ejs");
+    })
+    .catch((error) => {
+      res.status(404).json(error)
+    });
 });
 
 
