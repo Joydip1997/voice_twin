@@ -259,8 +259,6 @@ coinToPurchase.onclick = function (e) {
     })
         .then(response => response.json())
         .then(data => {
-            // Handle the response from the server
-            console.log(da);
             var options = {
                 "key": "rzp_test_RYO9l0r3IOg3Ia", // Enter the Key ID generated from the Dashboard
                 "amount": data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
