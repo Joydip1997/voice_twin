@@ -189,7 +189,7 @@ async function fetchAvailableToken(userId) {
 }
 
 
-app.post("/purchase", async (req, res) => {
+app.post("/purchase",  (req, res) => {
   let coinsUserWantToPurchase = req.body.coinsUserWantToPurchase
 
   let costPerCoin = 0.042
