@@ -14,9 +14,7 @@ app.use(express.json());
 app.use('/public', express.static('public'));
 
 app.use(cors({
-  origin: 'http://localhost:7000',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: 'http://www.vocaltwin.cloud'
 }));
 
 var serviceAccount = require("./vocal-twin-firebase-adminsdk-4n3o0-c9eb8325f0.json");
