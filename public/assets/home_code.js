@@ -108,30 +108,24 @@ window.onload = function () {
         .then(response => response.json())
         .then(voices => {
             // Get the select element
-
+            console.log(voices)
 
             // Loop through the voice data and create options for the select element
-            voices.forEach(voice => {
-                // Create an option element
-                const option = document.createElement("option");
+            // voices.forEach(voice => {
+            //     // Create an option element
+            //     const option = document.createElement("option");
 
-                // Set the option's text and value attributes
-                option.text = voice.name;
-                option.value = voice.voice_id;
+            //     // Set the option's text and value attributes
+            //     option.text = voice.name;
+            //     option.value = voice.voice_id;
 
-                // Append the option to the select element
-                voicesSelect.appendChild(option);
-            });
+            //     // Append the option to the select element
+            //     voicesSelect.appendChild(option);
+            // });
         })
         .catch(error => {
             // Handle any errors
             console.error("Error:", error);
-            const option = document.createElement("option");
-            option.text = error;
-            option.value = voice.modelId;
-
-            // Append the option to the select element
-            voicesSelect.appendChild(option);
         });
 };
 
