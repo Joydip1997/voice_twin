@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>File Upload</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #272726;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #272726;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-left: 0;
+      /* Align container to the left of the screen */
+      margin-right: auto;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-label {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .file-list {
+      margin-top: 10px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .file-item span {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .file-item button {
+      padding: 5px 10px;
+      background-color: #e53935;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      display: block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #2196f3;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+
+
+    #file_upload_title {
+      font-size: 50px;
+      font-weight: bold;
+      color: white;
+      margin-top: 4px;
+    }
+
+    #disclaimer {
+      color: #fff;
+      font-size: 12px;
+      margin: 0px;
+      margin-top: 20px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2 id="file_upload_title">Upload The Voice</h2>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+      <label for="files">Select Files:</label>
+      <input type="file" id="files" accept=".mp3" multiple>
+      <label for="files" class="file-label">Choose Files</label>
+    </div>
+    <div class="file-list">
+      <p>Selected Files:</p>
+    </div>
+    <button id="submitBtn" class="submit-btn">Upload</button>
+    <div id="disclaimer">
+      <p>This website respects intellectual property rights. Do not use other individuals' voices without their explicit
+        permission. Always seek proper authorization before utilizing any copyrighted material.</p>
+    </div>
+
+  </div>
+
+  <script>
+    const filesInput = document.getElementById('files');
+    const fileList = document.querySelector('.file-list');
+    const submitBtn = document.getElementById('submitBtn');
+
+    filesInput.addEventListener('change', handleFileSelect);
+    fileList.addEventListener('click', handleFileRemove);
+    submitBtn.addEventListener('click', handleUpload);
+
+    function handleFileSelect(e) {
+      fileList.innerHTML = '';
+
+      const files = e.target.files;
+      const file = files[0];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+      }
+      alert(files.length);
+    }
+
+
+    function handleFileRemove(e) {
+      if (e.target.tagName === 'BUTTON') {
+        const index = e.target.getAttribute('data-index');
+        const fileItem = e.target.parentNode;
+        fileList.removeChild(fileItem);
+        filesInput.value = '';
+      }
+    }
+
+    function handleUpload() {
+      const files = filesInput.files;
+      const name = document.getElementById('name').value;
+
+      if (name.trim() === '') {
+        alert('Please enter a name for the audio.');
+        return;
+      }
+
+      if (files.length === 0) {
+        alert('Please select at least one file.');
+        return;
+      }
+
+      if (files.length > 3) {
+        alert('You can only upload up to 3 files.');
+        return;
+      }
+
+      // Perform file upload logic here
+      // You can use the File API or FormData to upload the files to a server or Firebase Storage
+
+      // Clear the form after successful upload
+      filesInput.value = '';
+      fileList.innerHTML = '';
+      document.getElementById('name').value = '';
+
+      alert('Files uploaded successfully!');
+    }
+  </script>
+</body>
+
+</html>

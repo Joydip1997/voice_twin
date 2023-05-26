@@ -14,9 +14,8 @@ app.use(express.json());
 app.use('/public', express.static('public'));
 
 app.use(cors({
-  origin: 'http://www.vocaltwin.cloud'
+  origin: '*'
 }));
-
 var serviceAccount = require("./vocal-twin-firebase-adminsdk-4n3o0-c9eb8325f0.json");
 
 admin.initializeApp({
@@ -48,6 +47,10 @@ app.get('/home', (req, res) => {
 
 app.post("/home", (req, res) => {
   res.render("home.ejs");
+})
+
+app.get("/upload", (req, res) => {
+  res.render("uploadfile.ejs");
 })
 
 
