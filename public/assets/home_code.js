@@ -243,7 +243,7 @@ coinToPurchase.onclick = function (e) {
                 "name": "Voice Twin", //your business name
                 "description": coinsUserWantToPurchase + " Coins",
                 "image": "https://example.com/your_logo",
-                "callback_url": "http://vocaltwin.cloud7000/home",
+                "callback_url": "http://vocaltwin.cloud/home",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "notes": {
                     "userId": currentUserId,
