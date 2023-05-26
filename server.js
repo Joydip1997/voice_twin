@@ -184,13 +184,17 @@ app.get('/availableVoices', (req, res) => {
       "Content-Type": "application/json",
       "xi-api-key": process.env.API_KEY
     }
-  }).then(apiRes => {
-     res.status(200).json(apiRes.voices)
+  })
+    .then(response => {
+      // Process the response from the second API
+      console.log(response.data);
+      res.status(200).json(response.data);
     })
     .catch(error => {
-      res.status(404).send(error);
+      console.log(error);
+      res.status(500).json({ error: 'An error occurred' });
     });
-})
+});
 
 
 // Utils

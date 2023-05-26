@@ -43,15 +43,15 @@ function toggleMenu() {
 }
 
 
-
-function fetchUserDetails(userId,baseUrl) {
+// xxxxxxxxxx Fetch User Details xxxxxxxxxx
+function fetchUserDetails(userId, baseUrl) {
     currentUserId = userId
     const params = new URLSearchParams();
     params.append('userId', userId);
 
 
     sumbitBtn.disabled = true;
-    const url = baseUrl +'/getUserDetails?' + params.toString();
+    const url = baseUrl + '/getUserDetails?' + params.toString();
 
 
     const requestOptions = {
@@ -101,6 +101,39 @@ function signOut() {
 
 
 
+// On Page Load
+window.onload = function () {
+    // Fetch the list of voices from the API
+    fetch("http://vocaltwin.cloud/availableVoices")
+        .then(response => response.json())
+        .then(voices => {
+            // Get the select element
+
+
+            // Loop through the voice data and create options for the select element
+            voices.forEach(voice => {
+                // Create an option element
+                const option = document.createElement("option");
+
+                // Set the option's text and value attributes
+                option.text = voice.name;
+                option.value = voice.voice_id;
+
+                // Append the option to the select element
+                voicesSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error("Error:", error);
+            const option = document.createElement("option");
+            option.text = error;
+            option.value = voice.modelId;
+
+            // Append the option to the select element
+            voicesSelect.appendChild(option);
+        });
+};
 
 
 
@@ -128,46 +161,7 @@ voiceForm.addEventListener("input", function (event) {
 });
 
 
-
-window.onload = function () {
-    // Fetch the list of voices from the API
-    fetch("https://api.elevenlabs.io/v1/voices", {
-        headers: {
-            "Content-Type": "application/json",
-            "xi-api-key": "046b09bfa501c8aab5bb53af9d0f6511"
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Get the select element
-
-
-            // Loop through the voice data and create options for the select element
-            data.voices.forEach(voice => {
-                // Create an option element
-                const option = document.createElement("option");
-
-                // Set the option's text and value attributes
-                option.text = voice.name;
-                option.value = voice.voice_id;
-
-                // Append the option to the select element
-                voicesSelect.appendChild(option);
-            });
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error("Error:", error);
-            const option = document.createElement("option");
-            option.text = error;
-            option.value = voice.modelId;
-
-            // Append the option to the select element
-            voicesSelect.appendChild(option);
-        });
-};
-
-document.getElementById("voiceForm").addEventListener("submit", function (event) {
+voiceForm.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
     // Retrieve form values
@@ -180,11 +174,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
     let userId
 
 
-    if (storedData) {
-        userId = storedData;
-    } else {
-        console.log('No data found in localStorage.');
-    }
+    userId = storedData;
 
 
 
@@ -246,13 +236,7 @@ document.getElementById("voiceForm").addEventListener("submit", function (event)
         });
 });
 
-
-
-
-
-
 coinToPurchase.onclick = function (e) {
-
     fetch('http://www.vocaltwin.cloud/purchase', {
         method: 'POST',
         headers: {
@@ -266,14 +250,14 @@ coinToPurchase.onclick = function (e) {
                 "key": "rzp_test_RYO9l0r3IOg3Ia", // Enter the Key ID generated from the Dashboard
                 "amount": data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
-                "name": "Acme Corp", //your business name
-                "description": "Test Transaction",
+                "name": "Voice Twin", //your business name
+                "description": coinsUserWantToPurchase + " Coins",
                 "image": "https://example.com/your_logo",
-                "callback_url":"http://www.vocaltwin.cloud/home",
+                "callback_url": "http://www.vocaltwin.cloud/home",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "notes": {
                     "userId": currentUserId,
-                    "coinsUserWantToPurchase":coinsUserWantToPurchase
+                    "coinsUserWantToPurchase": coinsUserWantToPurchase
                 },
                 "theme": {
                     "color": "#3399cc"
@@ -293,8 +277,7 @@ coinToPurchase.onclick = function (e) {
             e.preventDefault();
         })
         .catch(error => {
-            // Handle any errors that occurred during the request
-            console.error('Error:', error);
+            alert(error);
         });
 }
 
