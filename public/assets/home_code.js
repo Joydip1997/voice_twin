@@ -220,6 +220,22 @@ voiceForm.addEventListener("submit", function (event) {
             } else {
                 audioContainer.appendChild(audioElement);
             }
+
+
+            currentTokenCount -= parseInt(paragraph.length)
+            textCounter.textContent = "Characters remaining: " + currentTokenCount;
+            navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
+
+
+            var remainingCharacters = currentTokenCount;
+
+            textCounter.innerHTML = (remainingCharacters > 0) ? "Characters remaining: " + remainingCharacters : "<span style='color: red;'>You are out of characters</span>";
+        
+            if (paragraph.length > 0 && remainingCharacters > 0 && selectedVoice !== "") {
+                sumbitBtn.disabled = false;
+            } else {
+                sumbitBtn.disabled = true;
+            }
         })
         .catch(error => {
             console.error("Error:", error);
