@@ -234,3 +234,102 @@ datalist {
   background-color: #ffffff;
   color: #171617;
 }
+
+
+
+/* Generate Audio Clone */
+
+.create_audio_clone{
+  display: none;
+}
+
+
+
+.create_audio_clone {
+  max-width: 600px;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #272726;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-left: 0;
+  /* Align container to the left of the screen */
+  margin-right: auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-list {
+  margin-top: 10px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.file-item span {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.file-item button {
+  padding: 5px 10px;
+  background-color: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+#file_upload_title {
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+  margin-top: 4px;
+}
+
+#disclaimer {
+  color: #fff;
+  font-size: 12px;
+  margin: 0px;
+  margin-top: 20px;
+
+}
+
+.input-field {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;
+}

@@ -92,15 +92,23 @@
       margin-top: 20px;
 
     }
+
+    .input-field {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      width: 200px;
+    }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div id="create_audio_clone_ui"  class="create_audio_clone">
     <h2 id="file_upload_title">Upload The Voice</h2>
     <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" placeholder="Enter name">
+      <label for="name">Voice Name:</label>
+      <input type="text" placeholder="" class="input-field" />
     </div>
     <div class="form-group">
       <label for="files">Select Files:</label>
@@ -134,7 +142,7 @@
       const file = files[0];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        
+
       }
       alert(files.length);
     }

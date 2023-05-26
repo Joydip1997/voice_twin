@@ -64,7 +64,7 @@ function fetchUserDetails(userId) {
 
 
     // Build the URL with query parameters
-    const url = 'http://www.vocaltwin.cloud/getUserDetails?' + params.toString();
+    const url = 'http://vocaltwin.cloud/getUserDetails?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
@@ -86,7 +86,7 @@ function fetchUserDetails(userId) {
                 document.head.innerHTML = '';
 
                 // Navigate to another page
-                window.location.href = 'http://www.vocaltwin.cloud/home';
+                window.location.href = 'http://vocaltwin.cloud/home';
             }else{
                 registerNewUser(userId)
             }
@@ -104,7 +104,7 @@ function registerNewUser(userId) {
 
 
     // Build the URL with query parameters
-    const url = 'http://www.vocaltwin.cloud/register?' + params.toString();
+    const url = 'http://vocaltwin.cloud/register?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {

@@ -11,7 +11,7 @@
     <nav>
       <ul>
         <li><a id='nav_button_generate' href="#">Generate</a></li>
-        <!-- <li><a href="#">Hisory</a></li> -->
+        <li><a id='nav_button_create_new_audio' href="#">Create New Audio</a></li>
         <li><a id='nav_button_coin_counter_text' href="#">💰 Coins </a></li>
       </ul>
     </nav>
@@ -32,7 +32,7 @@
   <!-- Generate Audio UI -->
   <div id="generate-audio-ui" class="content">
     <h1>Generate Voice</h1>
-    <form id="voiceForm" >
+    <form id="voiceForm">
       <textarea id="paragraph" name="paragraph" rows="4" maxlength="1000" required></textarea>
       <label id="text_counter" for="paragraph">Characters remaining: 1000</label>
 
@@ -43,22 +43,46 @@
       <div id="audioContainer" style="margin-top: 20px;"></div>
     </form>
   </div>
-<!-- Purchase Coins -->
+  <!-- Purchase Coins -->
   <div id="purchase-coins" class="content">
     <h1 id="test-id">Pricing</h1>
     <p class="green-text">$0.00056</p>
     <p class="extra-small-text">Coins (1 token = 1 character)</p>
-  
+
     <datalist id="tickmarks">
       <option value="0" label="100"></option>
       <option value="100" label="1000"></option>
     </datalist>
-    <input type="range" class="slider" min="100" max="1000" step="10" value="100"/>
+    <input type="range" class="slider" min="100" max="1000" step="10" value="100" />
 
     <div>
       <button id="coin-to-purchase" class="custom-button">Buy 1K Tokens $0.00056</button>
     </div>
-   
+
+  </div>
+
+  <!-- Create Audio Clone Section -->
+
+  <div id="create_audio_clone_ui" class="create_audio_clone">
+    <h2 id="file_upload_title">Upload The Voice</h2>
+    <div class="form-group">
+      <label for="name">Voice Name:</label>
+      <input type="text" placeholder="" class="input-field" />
+    </div>
+    <div class="form-group">
+      <label for="files">Select Files:</label>
+      <input type="file" id="files" accept=".mp3" multiple>
+      <label for="files" class="file-label">Choose Files</label>
+    </div>
+    <div class="file-list">
+      <p>Selected Files:</p>
+    </div>
+    <button id="submitBtn" class="submit-btn">Upload</button>
+    <div id="disclaimer">
+      <p>This website respects intellectual property rights. Do not use other individuals' voices without their explicit
+        permission. Always seek proper authorization before utilizing any copyrighted material.</p>
+    </div>
+
   </div>
 
 
@@ -73,7 +97,7 @@
   <script src="/public/assets/home_code.js"></script>
   <script>
     // Your web app's Firebase configuration
-    
+
     const firebaseConfig = {
       apiKey: "AIzaSyBqfo4NAE_bI6dCItZkR039RkxNtjZqT5c",
       authDomain: "vocal-twin.firebaseapp.com",
@@ -92,7 +116,7 @@
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         localStorage.setItem('userId', user.uid);
-        fetchUserDetails(user.uid,"http://vocaltwin.cloud");
+        fetchUserDetails(user.uid, "http://vocaltwin.cloud");
         fetchVoices(user.uid)
       } else {
         // User is not logged in

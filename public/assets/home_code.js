@@ -9,25 +9,40 @@ var sumbitBtn = document.getElementById("submitButton");
 
 var navButtonGenerateAudio = document.getElementById("nav_button_generate");
 var navButtonCoinCounterText = document.getElementById("nav_button_coin_counter_text");
-
+var navButtonCreateNewAudio = document.getElementById("nav_button_create_new_audio");
 
 var generateAudioUi = document.getElementById("generate-audio-ui");
-var textCounter = document.getElementById("text_counter");
 var buyCoinsUi = document.getElementById("purchase-coins");
+var createAudioCloneUi = document.getElementById("create_audio_clone_ui");
+var textCounter = document.getElementById("text_counter");
+
 var slider = document.querySelector('.slider');
 var coinToPurchase = document.getElementById('coin-to-purchase');
 
 var voiceForm = document.getElementById("voiceForm")
 var voicesSelect = document.getElementById("voices");
 
+const audioContainer = document.getElementById("audioContainer");
+
+
+
+
 navButtonGenerateAudio.addEventListener('click', function () {
     generateAudioUi.style.display = "block";
     buyCoinsUi.style.display = "none";
+    createAudioCloneUi.style.display = "none";
 });
 
 navButtonCoinCounterText.addEventListener('click', function () {
     buyCoinsUi.style.display = "block";
     generateAudioUi.style.display = "none";
+    createAudioCloneUi.style.display = "none";
+});
+
+navButtonCreateNewAudio.addEventListener('click', function () {
+    createAudioCloneUi.style.display = "block";
+    generateAudioUi.style.display = "none";
+    buyCoinsUi.style.display = "none";
 });
 
 slider.addEventListener('input', function () {
@@ -148,7 +163,7 @@ voiceForm.addEventListener("submit", function (event) {
     sumbitBtn.disabled = true;
     document.getElementById("voiceForm").appendChild(loadingText);
 
-    const apiUrl = 'http://www.vocaltwin.cloud/convertTextToAudio';
+    const apiUrl = 'http://vocaltwin.cloud/convertTextToAudio';
 
 
     const queryParams = {
@@ -164,6 +179,7 @@ voiceForm.addEventListener("submit", function (event) {
 
 
     const urlWithParams = `${apiUrl}?${queryString}`;
+    audioContainer.innerHTML = ""; // Clear any existing content
 
 
     fetch(urlWithParams, {
@@ -176,19 +192,14 @@ voiceForm.addEventListener("submit", function (event) {
             const audioUrl = URL.createObjectURL(blob);
 
 
+
+
             const audioElement = document.createElement("audio");
+            audioElement.src = audioUrl;
+            audioElement.controls = true; // Add controls to the audio element
 
 
-            audioElement.src = audioUrl; // Add controls to the audio element
-
-
-            document.getElementById("audioContainer").appendChild(audioElement);
-            const existingAudioElement = audioContainer.querySelector("audio");
-            if (existingAudioElement) {
-                audioContainer.replaceChild(audioElement, existingAudioElement);
-            } else {
-                audioContainer.appendChild(audioElement);
-            }
+            audioContainer.appendChild(audioElement);
 
 
             // Update Coins After Each Transaction
@@ -216,7 +227,7 @@ voiceForm.addEventListener("submit", function (event) {
 });
 
 coinToPurchase.onclick = function (e) {
-    fetch('http://www.vocaltwin.cloud/purchase', {
+    fetch('http://vocaltwin.cloud/purchase', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -232,7 +243,7 @@ coinToPurchase.onclick = function (e) {
                 "name": "Voice Twin", //your business name
                 "description": coinsUserWantToPurchase + " Coins",
                 "image": "https://example.com/your_logo",
-                "callback_url": "http://www.vocaltwin.cloud/home",
+                "callback_url": "http://vocaltwin.cloud7000/home",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "notes": {
                     "userId": currentUserId,
@@ -266,7 +277,70 @@ coinToPurchase.onclick = function (e) {
 function navigateToAuth() {
     document.body.innerHTML = '';
     document.head.innerHTML = '';
-    window.location.href = 'http://www.vocaltwin.cloud/auth';
+    window.location.href = 'http://vocaltwin.cloud/auth';
 }
 
 
+
+
+//Generate Audio Clone Section
+const filesInput = document.getElementById('files');
+const fileList = document.querySelector('.file-list');
+const submitBtn = document.getElementById('submitBtn');
+
+
+filesInput.addEventListener('change', handleFileSelect);
+fileList.addEventListener('click', handleFileRemove);
+submitBtn.addEventListener('click', handleUpload);
+
+function handleFileSelect(e) {
+    fileList.innerHTML = '';
+
+    const files = e.target.files;
+    const file = files[0];
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+    }
+    alert(files.length);
+}
+
+
+function handleFileRemove(e) {
+    if (e.target.tagName === 'BUTTON') {
+        const index = e.target.getAttribute('data-index');
+        const fileItem = e.target.parentNode;
+        fileList.removeChild(fileItem);
+        filesInput.value = '';
+    }
+}
+
+function handleUpload() {
+    const files = filesInput.files;
+    const name = document.getElementById('name').value;
+
+    if (name.trim() === '') {
+        alert('Please enter a name for the audio.');
+        return;
+    }
+
+    if (files.length === 0) {
+        alert('Please select at least one file.');
+        return;
+    }
+
+    if (files.length > 3) {
+        alert('You can only upload up to 3 files.');
+        return;
+    }
+
+    // Perform file upload logic here
+    // You can use the File API or FormData to upload the files to a server or Firebase Storage
+
+    // Clear the form after successful upload
+    filesInput.value = '';
+    fileList.innerHTML = '';
+    document.getElementById('name').value = '';
+
+    alert('Files uploaded successfully!');
+}
