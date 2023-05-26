@@ -186,12 +186,9 @@ app.get('/availableVoices', (req, res) => {
     }
   })
     .then(response => {
-      // Process the response from the second API
-      console.log(response.data);
       res.status(200).json(response.data);
     })
     .catch(error => {
-      console.log(error);
       res.status(500).json({ error: 'An error occurred' });
     });
 });

@@ -106,22 +106,22 @@ window.onload = function () {
     // Fetch the list of voices from the API
     fetch("http://vocaltwin.cloud/availableVoices")
         .then(response => response.json())
-        .then(voices => {
+        .then(data => {
             // Get the select element
-            console.log(voices)
+            console.log(data)
 
             // Loop through the voice data and create options for the select element
-            // voices.forEach(voice => {
-            //     // Create an option element
-            //     const option = document.createElement("option");
+            data.voices.forEach(voice => {
+                // Create an option element
+                const option = document.createElement("option");
 
-            //     // Set the option's text and value attributes
-            //     option.text = voice.name;
-            //     option.value = voice.voice_id;
+                // Set the option's text and value attributes
+                option.text = voice.name;
+                option.value = voice.voice_id;
 
-            //     // Append the option to the select element
-            //     voicesSelect.appendChild(option);
-            // });
+                // Append the option to the select element
+                voicesSelect.appendChild(option);
+            });
         })
         .catch(error => {
             // Handle any errors
