@@ -86,11 +86,7 @@ function signOut() {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
         setTimeout(function () {
-            document.body.innerHTML = '';
-            document.head.innerHTML = '';
-
-            // Navigate to another page
-            window.location.href = 'http://www.vocaltwin.cloud/auth';
+            navigateToAuth()
         }, 1000)
     }).catch(function (error) {
         // An error happened.
@@ -98,37 +94,6 @@ function signOut() {
 
     });
 }
-
-
-
-// On Page Load
-window.onload = function () {
-    // Fetch the list of voices from the API
-    fetch("http://vocaltwin.cloud/availableVoices")
-        .then(response => response.json())
-        .then(data => {
-            // Get the select element
-            console.log(data)
-
-            // Loop through the voice data and create options for the select element
-            data.voices.forEach(voice => {
-                // Create an option element
-                const option = document.createElement("option");
-
-                // Set the option's text and value attributes
-                option.text = voice.name;
-                option.value = voice.voice_id;
-
-                // Append the option to the select element
-                voicesSelect.appendChild(option);
-            });
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error("Error:", error);
-        });
-};
-
 
 
 //UI Code
@@ -154,25 +119,30 @@ voiceForm.addEventListener("input", function (event) {
     }
 });
 
+function fetchVoices(userId) {
+    fetch("http://vocaltwin.cloud/availableVoices")
+        .then(response => response.json())
+        .then(data => {
+            data.voices.forEach(voice => {
+                const option = document.createElement("option");
+                option.text = voice.name;
+                option.value = voice.voice_id;
+                voicesSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            alert("Something went wrong! Try again")
+        });
+}
+
 
 voiceForm.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
-
-    // Retrieve form values
     var paragraph = document.getElementById("paragraph").value;
     var selectedVoice = document.getElementById("voices").value;
-
-
-    // Retrieving data from localStorage
     const storedData = localStorage.getItem('userId');
     let userId
-
-
     userId = storedData;
-
-
-
-    // Show loading state
     var loadingText = document.createElement("div");
     loadingText.textContent = "Loading...";
     sumbitBtn.disabled = true;
@@ -180,22 +150,22 @@ voiceForm.addEventListener("submit", function (event) {
 
     const apiUrl = 'http://www.vocaltwin.cloud/convertTextToAudio';
 
-    // Query parameters
+
     const queryParams = {
         selectedVoice: selectedVoice,
         paragraph: paragraph,
         userId: userId
     };
 
-    // Construct the query string
+
     const queryString = Object.keys(queryParams)
         .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
         .join('&');
 
-    // Construct the complete URL with query string
+
     const urlWithParams = `${apiUrl}?${queryString}`;
 
-    // Example code for API call using fetch
+
     fetch(urlWithParams, {
         method: "GET",
 
@@ -205,14 +175,13 @@ voiceForm.addEventListener("submit", function (event) {
             // Create a URL for the audio blob
             const audioUrl = URL.createObjectURL(blob);
 
-            // Create an audio element
+
             const audioElement = document.createElement("audio");
 
-            // Set the source of the audio element
-            audioElement.src = audioUrl;
-            audioElement.controls = true; // Add controls to the audio element
 
-            // Append the audio element to the DOM
+            audioElement.src = audioUrl; // Add controls to the audio element
+
+
             document.getElementById("audioContainer").appendChild(audioElement);
             const existingAudioElement = audioContainer.querySelector("audio");
             if (existingAudioElement) {
@@ -222,15 +191,15 @@ voiceForm.addEventListener("submit", function (event) {
             }
 
 
+            // Update Coins After Each Transaction
+
             currentTokenCount -= parseInt(paragraph.length)
             textCounter.textContent = "Characters remaining: " + currentTokenCount;
             navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
 
-
             var remainingCharacters = currentTokenCount;
-
             textCounter.innerHTML = (remainingCharacters > 0) ? "Characters remaining: " + remainingCharacters : "<span style='color: red;'>You are out of characters</span>";
-        
+
             if (paragraph.length > 0 && remainingCharacters > 0 && selectedVoice !== "") {
                 sumbitBtn.disabled = false;
             } else {
@@ -292,5 +261,12 @@ coinToPurchase.onclick = function (e) {
 }
 
 
+
+// Utils
+function navigateToAuth() {
+    document.body.innerHTML = '';
+    document.head.innerHTML = '';
+    window.location.href = 'http://www.vocaltwin.cloud/auth';
+}
 
 
