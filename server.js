@@ -1,10 +1,17 @@
 const express = require('express');
 const axios = require('axios');
+const FormData = require('form-data');
 const Razorpay = require('razorpay');
+const multer = require('multer');
 const cors = require('cors');
+const fs = require('fs');
 
 require('dotenv').config();
 
+
+// Define storage configuration for multer
+const storage = multer.memoryStorage();
+const upload = multer({ dest: 'uploads/' });
 
 var admin = require("firebase-admin");
 
@@ -56,18 +63,24 @@ app.get("/upload", (req, res) => {
 
 // Firebase DB Calls
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   const userId = req.query.userId
-  db.collection('users').doc(userId).set({
-    userId: userId,
-    token: 500
-  })
-    .then((docRef) => {
-      res.status(201).json({ success: true })
+  console.log(userId)
+  try {
+    const listOfPreMadeVoices = await getListOfPreMadeVoices()
+
+    const newUser = await db.collection('users').doc(userId).set({
+      userId: userId,
+      voices: listOfPreMadeVoices,
+      token: 500
     })
-    .catch((error) => {
-      res.status(404).json({ success: true, error: error })
-    });
+
+    res.status(201).json(newUser)
+
+  } catch (error) {
+
+    res.status(400).json(error)
+  }
 })
 
 app.get('/getUserDetails', (req, res) => {
@@ -77,9 +90,11 @@ app.get('/getUserDetails', (req, res) => {
       if (doc.exists) {
 
         const token = doc.data().token;
+        const voices = doc.data().voices
         res.status(200).json({
           success: true,
-          token: token
+          token: token,
+          voices: voices
         });
 
 
@@ -134,7 +149,7 @@ app.get('/convertTextToAudio', async (req, res) => {
   const token = await fetchAvailableToken(userId);
 
   if (paragraph.length > token) {
-    res.status(404).json("buy tokens")
+    res.status(400).json("buy tokens")
   }
 
 
@@ -181,23 +196,139 @@ app.get('/convertTextToAudio', async (req, res) => {
     });
 })
 
-app.get('/availableVoices', (req, res) => {
-  axios.get("https://api.elevenlabs.io/v1/voices", {
-    headers: {
-      "Content-Type": "application/json",
-      "xi-api-key": process.env.API_KEY
-    }
-  })
-    .then(response => {
-      res.status(200).json(response.data);
-    })
-    .catch(error => {
-      res.status(500).json({ error: 'An error occurred' });
+
+async function getListOfPreMadeVoices() {
+  try {
+    const response = await axios.get("https://api.elevenlabs.io/v1/voices", {
+      headers: {
+        "Content-Type": "application/json",
+        "xi-api-key": process.env.API_KEY
+      }
     });
+
+    const extractedData = response.data;
+    const listOfPreMadeVoices = extractedData.voices.map(({ voice_id, name, category }) => ({
+      voice_id,
+      name,
+      category
+    }));
+    return listOfPreMadeVoices;
+  } catch (error) {
+    console.error('Error fetching list of pre-made voices:', error);
+    return []; // Return an empty array or handle the error case as needed
+  }
+}
+
+
+
+
+app.post('/clonevoice', upload.single('file'), async (req, res) => {
+  try {
+    const file = req.file;
+    const userId = req.body.userId
+    const fileName = req.body.name
+    const filePath = file.path
+    if (!file) {
+      res.status(400).send('No file uploaded.');
+      return;
+    }
+
+    if (!await hasSufficientCoins(userId)) {
+      throw Error("buy coins")
+    }
+
+    const formData = new FormData();
+    formData.append('name', fileName);
+    formData.append('files', fs.createReadStream(filePath));
+
+    const response = await axios.post('https://api.elevenlabs.io/v1/voices/add', formData, {
+      headers: {
+        'xi-api-key': process.env.API_KEY
+      }
+    });
+
+    fs.unlink(filePath, (error) => {
+      if (error) {
+        console.error('Error deleting file:', error);
+      } else {
+        console.log('File deleted successfully');
+      }
+    });
+
+    const newVoice = {
+      voice_id: response.data.voice_id,
+      name: fileName,
+      category: "created"
+    }
+
+    const updatedData = await addNewVoiceIdAndUpdateCoins(userId, newVoice)
+
+
+    res.status(201).json({
+      voice_id : response.data.voice_id
+    })
+
+
+  } catch (error) {
+    res.status(400).json({
+      "error": error.message
+    });
+  }
 });
 
 
 // Utils
+async function hasSufficientCoins(userId) {
+  const documentRef = db.collection("users").doc(userId);
+  const documentSnapshot = await documentRef.get();
+
+  if (!documentSnapshot.exists) {
+    console.log('Document does not exist.');
+    return;
+  }
+
+  const token = documentSnapshot.data().token;
+
+  return token > process.env.COIN_REQUIRED_FOR_VOICE_PURCHASE
+}
+
+async function addNewVoiceIdAndUpdateCoins(userId, newVoice) {
+  const documentRef = db.collection("users").doc(userId);
+  const documentSnapshot = await documentRef.get();
+
+  if (!documentSnapshot.exists) {
+    console.log('Document does not exist.');
+    return;
+  }
+
+  const token = documentSnapshot.data().token;
+
+  if (token < 500) {
+    throw Error("Buy coins")
+  }
+
+  //Update coins for the voice addition
+  await db.runTransaction(async (transaction) => {
+
+    if (documentSnapshot.exists) {
+      const newCounter = token - process.env.COIN_REQUIRED_FOR_VOICE_PURCHASE;
+      transaction.update(documentRef, { token: newCounter });
+    } else {
+      throw new Error('User document does not exist.');
+    }
+  });
+
+  const list = documentSnapshot.data().voices || [];
+  const voices = list || [];
+
+
+
+  voices.push(newVoice);
+
+  await documentRef.update({ voices });
+}
+
+
 function decrementCoins(userId, decrementBy) {
   const userRef = db.collection('users').doc(userId);
 

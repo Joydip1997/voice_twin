@@ -116,8 +116,7 @@
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         localStorage.setItem('userId', user.uid);
-        fetchUserDetails(user.uid, "http://vocaltwin.cloud");
-        fetchVoices(user.uid)
+        fetchUserDetails(user.uid, "http://localhost:7000");
       } else {
         // User is not logged in
         navigateToAuth()

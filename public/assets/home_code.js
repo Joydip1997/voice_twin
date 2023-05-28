@@ -84,6 +84,12 @@ function fetchUserDetails(userId, baseUrl) {
                 currentTokenCount = parseInt(token)
                 textCounter.textContent = "Characters remaining: " + currentTokenCount;
                 navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
+                data.voices.forEach(voice => {
+                    const option = document.createElement("option");
+                    option.text = voice.name + " (" +voice.category+ ")";
+                    option.value = voice.voice_id;
+                    voicesSelect.appendChild(option);
+                })
             }
         })
         .catch(error => {
@@ -134,21 +140,7 @@ voiceForm.addEventListener("input", function (event) {
     }
 });
 
-function fetchVoices(userId) {
-    fetch("http://vocaltwin.cloud/availableVoices")
-        .then(response => response.json())
-        .then(data => {
-            data.voices.forEach(voice => {
-                const option = document.createElement("option");
-                option.text = voice.name;
-                option.value = voice.voice_id;
-                voicesSelect.appendChild(option);
-            });
-        })
-        .catch(error => {
-            alert("Something went wrong! Try again")
-        });
-}
+
 
 
 voiceForm.addEventListener("submit", function (event) {
@@ -218,7 +210,7 @@ voiceForm.addEventListener("submit", function (event) {
             }
         })
         .catch(error => {
-            console.error("Error:", error);
+            alert("Out Of Coins")
         })
         .finally(() => {
             loadingText.remove();
@@ -284,6 +276,7 @@ function navigateToAuth() {
 
 
 //Generate Audio Clone Section
+
 const filesInput = document.getElementById('files');
 const fileList = document.querySelector('.file-list');
 const submitBtn = document.getElementById('submitBtn');
@@ -292,16 +285,14 @@ const submitBtn = document.getElementById('submitBtn');
 filesInput.addEventListener('change', handleFileSelect);
 fileList.addEventListener('click', handleFileRemove);
 submitBtn.addEventListener('click', handleUpload);
+let file
 
 function handleFileSelect(e) {
     fileList.innerHTML = '';
 
     const files = e.target.files;
-    const file = files[0];
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+    file = files[0];
 
-    }
     alert(files.length);
 }
 
@@ -316,8 +307,7 @@ function handleFileRemove(e) {
 }
 
 function handleUpload() {
-    const files = filesInput.files;
-    const name = document.getElementById('name').value;
+    const name = "TEST";
 
     if (name.trim() === '') {
         alert('Please enter a name for the audio.');
@@ -340,7 +330,24 @@ function handleUpload() {
     // Clear the form after successful upload
     filesInput.value = '';
     fileList.innerHTML = '';
-    document.getElementById('name').value = '';
+    // document.getElementById('name').value = '';
 
-    alert('Files uploaded successfully!');
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('files', file);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://vocaltwin.cloud/clonevoice', true);
+    //xhr.setRequestHeader('xi-api-key', '046b09bfa501c8aab5bb53af9d0f6511');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && s === 200) {
+            alert('Files uploaded successfully!');
+
+        }
+        console.log(xhr.status);
+    };
+    xhr.send(formData);
+
+
 }
+
