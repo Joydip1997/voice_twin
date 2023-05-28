@@ -335,6 +335,7 @@ function handleUpload() {
     var formData = new FormData();
     formData.append('name', name);
     formData.append('file', file);
+    formData.append('userId', currentUserId);
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://vocaltwin.cloud/clonevoice', true);
