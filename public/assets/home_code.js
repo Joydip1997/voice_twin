@@ -59,14 +59,14 @@ function toggleMenu() {
 
 
 // xxxxxxxxxx Fetch User Details xxxxxxxxxx
-function fetchUserDetails(userId, baseUrl) {
+function fetchUserDetails(userId) {
     currentUserId = userId
     const params = new URLSearchParams();
     params.append('userId', userId);
 
 
     sumbitBtn.disabled = true;
-    const url = baseUrl + '/getUserDetails?' + params.toString();
+    const url = "http://vocaltwin.cloud" + '/getUserDetails?' + params.toString();
 
 
     const requestOptions = {
@@ -334,7 +334,7 @@ function handleUpload() {
 
     var formData = new FormData();
     formData.append('name', name);
-    formData.append('files', file);
+    formData.append('file', file);
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://vocaltwin.cloud/clonevoice', true);

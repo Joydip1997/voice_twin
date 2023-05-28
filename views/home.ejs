@@ -116,7 +116,7 @@
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         localStorage.setItem('userId', user.uid);
-        fetchUserDetails(user.uid, "http://localhost:7000");
+        fetchUserDetails(user.uid);
       } else {
         // User is not logged in
         navigateToAuth()
