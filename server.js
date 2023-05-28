@@ -8,6 +8,8 @@ const fs = require('fs');
 
 require('dotenv').config();
 
+const OutOfCoinsError = require('./CustomErrors');
+
 
 // Define storage configuration for multer
 const storage = multer.memoryStorage();
@@ -190,9 +192,8 @@ app.get('/convertTextToAudio', async (req, res) => {
 
     })
     .catch(error => {
-      // Handle any errors that occurred during the API call
-      console.error(error);
-      res.status(500).send(error);
+  
+      res.status(500).json(error);
     });
 })
 
@@ -234,7 +235,7 @@ app.post('/clonevoice', upload.single('file'), async (req, res) => {
     }
 
     if (!await hasSufficientCoins(userId)) {
-      throw Error("buy coins")
+      throw OutOfCoinsError()
     }
 
     const formData = new FormData();
@@ -270,9 +271,7 @@ app.post('/clonevoice', upload.single('file'), async (req, res) => {
 
 
   } catch (error) {
-    res.status(400).json({
-      "error": error.message
-    });
+    res.status(400).send(error)
   }
 });
 
@@ -304,7 +303,7 @@ async function addNewVoiceIdAndUpdateCoins(userId, newVoice) {
   const token = documentSnapshot.data().token;
 
   if (token < 500) {
-    throw Error("Buy coins")
+    throw OutOfCoinsError()
   }
 
   //Update coins for the voice addition

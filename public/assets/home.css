@@ -239,23 +239,23 @@ datalist {
 
 /* Generate Audio Clone */
 
-.create_audio_clone{
+.create_audio_clone {
   display: none;
 }
 
 
-
+/* 
 .create_audio_clone {
   max-width: 600px;
   margin: 20px 0;
-  padding: 20px;
+  padding-top: 20px;
   background-color: #272726;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-left: 0;
   /* Align container to the left of the screen */
   margin-right: auto;
-}
+} */
 
 .form-group {
   margin-bottom: 10px;
@@ -274,9 +274,7 @@ datalist {
   cursor: pointer;
 }
 
-.file-list {
-  margin-top: 10px;
-}
+
 
 .file-item {
   display: flex;
@@ -299,20 +297,26 @@ datalist {
 }
 
 .submit-btn {
-  display: block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #2196f3;
-  color: #fff;
+  background-color: #00a8ff;
+  margin-top: 10px;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  padding: 10px 20px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #0077b6;
 }
 
 
 
+
 #file_upload_title {
-  font-size: 50px;
+  font-size: 30px;
+  margin: 0px;
   font-weight: bold;
   color: white;
   margin-top: 4px;
@@ -323,7 +327,13 @@ datalist {
   font-size: 12px;
   margin: 0px;
   margin-top: 20px;
+}
 
+#coins-required{
+  color: #fff;
+  font-size: 20px;
+  margin: 0px;
+  margin-top: 20px;
 }
 
 .input-field {
@@ -332,4 +342,30 @@ datalist {
   border-radius: 4px;
   font-size: 14px;
   width: 200px;
+}
+
+/* Progress Bar */
+
+.progress-container {
+  display: none;
+}
+
+.progress {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #00a8ff;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.3);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -86,7 +86,7 @@ function fetchUserDetails(userId) {
                 navButtonCoinCounterText.textContent = "💰 Coins " + currentTokenCount
                 data.voices.forEach(voice => {
                     const option = document.createElement("option");
-                    option.text = voice.name + " (" +voice.category+ ")";
+                    option.text = voice.name + " (" + voice.category + ")";
                     option.value = voice.voice_id;
                     voicesSelect.appendChild(option);
                 })
@@ -272,82 +272,88 @@ function navigateToAuth() {
     window.location.href = 'http://vocaltwin.cloud/auth';
 }
 
+function navigateToHome() {
+    document.body.innerHTML = '';
+    document.head.innerHTML = '';
+    window.location.href = 'http://vocaltwin.cloud/home';
+}
+
 
 
 
 //Generate Audio Clone Section
 
+
 const filesInput = document.getElementById('files');
-const fileList = document.querySelector('.file-list');
-const submitBtn = document.getElementById('submitBtn');
+const uploadAudioBtn = document.getElementById('sumbitBtn');
+const progressUi = document.getElementById('progressUi');
 
 
 filesInput.addEventListener('change', handleFileSelect);
-fileList.addEventListener('click', handleFileRemove);
-submitBtn.addEventListener('click', handleUpload);
+uploadAudioBtn.addEventListener('click',  handleUpload);
 let file
+let audioName
 
 function handleFileSelect(e) {
-    fileList.innerHTML = '';
-
     const files = e.target.files;
-    file = files[0];
-
-    alert(files.length);
+    file = files[0];    
 }
 
 
-function handleFileRemove(e) {
-    if (e.target.tagName === 'BUTTON') {
-        const index = e.target.getAttribute('data-index');
-        const fileItem = e.target.parentNode;
-        fileList.removeChild(fileItem);
-        filesInput.value = '';
-    }
-}
 
 function handleUpload() {
-    const name = "TEST";
+    const nameInput = document.getElementById('voiceName');
+    audioName = nameInput.value
+   
 
-    if (name.trim() === '') {
+    if (audioName.trim() === '') {
         alert('Please enter a name for the audio.');
         return;
     }
 
-    if (files.length === 0) {
+    if (file === null) {
         alert('Please select at least one file.');
         return;
     }
 
-    if (files.length > 3) {
-        alert('You can only upload up to 3 files.');
-        return;
-    }
+    // if (files.length > 3) {
+    //     alert('You can only upload up to 3 files.');
+    //     return;
+    // }
 
-    // Perform file upload logic here
-    // You can use the File API or FormData to upload the files to a server or Firebase Storage
-
-    // Clear the form after successful upload
-    filesInput.value = '';
-    fileList.innerHTML = '';
-    // document.getElementById('name').value = '';
+  
+    
+    uploadAudioBtn.style.display = 'none';
+    progressUi.style.display = 'block';
 
     var formData = new FormData();
-    formData.append('name', name);
+    formData.append('name', audioName);
     formData.append('file', file);
     formData.append('userId', currentUserId);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://vocaltwin.cloud/clonevoice', true);
-    //xhr.setRequestHeader('xi-api-key', '046b09bfa501c8aab5bb53af9d0f6511');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && s === 200) {
-            alert('Files uploaded successfully!');
 
-        }
-        console.log(xhr.status);
-    };
-    xhr.send(formData);
+    fetch('http://vocaltwin.cloud/clonevoice', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function (response) {
+            if (response.ok) {
+                navigateToHome()
+            } else {
+                alert("Buy more coins")
+                uploadAudioBtn.style.display = 'block';
+                progressUi.style.display = 'none';
+            }
+        })
+        .catch(function (error) {
+            alert(error)
+            uploadAudioBtn.style.display = 'block';
+            progressUi.style.display = 'none';
+        })
+        .finally(() => {
+            uploadAudioBtn.style.display = 'block';
+            progressUi.style.display = 'none';
+        });
 
 
 }
