@@ -369,3 +369,17 @@ datalist {
     transform: rotate(360deg);
   }
 }
+
+
+/* Privacy Policy Page */
+
+#privacy_policy{
+  display: none;
+}
+
+
+/* Contact Us Page */
+
+#contact_us{
+  display: none;
+}

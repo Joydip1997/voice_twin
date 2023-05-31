@@ -165,44 +165,44 @@ header {
     background-color: #171617;
     color: #fff;
     padding: 20px;
-  }
-  
-  h1 {
+}
+
+h1 {
     margin: 0;
-  }
-  
-  nav ul {
+}
+
+nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-  }
-  
-  nav ul li {
+}
+
+nav ul li {
     display: inline;
     margin-right: 10px;
-  }
-  
-  nav ul li a {
+}
+
+nav ul li a {
     color: #fff;
     text-decoration: none;
-  }
+}
 
-  nav ul li a {
+nav ul li a {
     color: #fff;
     text-decoration: none;
     padding: 20px;
-  }
-  
-  
-  nav ul li a:hover {
+}
+
+
+nav ul li a:hover {
     background-color: #272726;
-  }
-  
+}
 
 
-  /* Google Sign In Button */
 
-  .google-sign-in {
+/* Google Sign In Button */
+
+.google-sign-in {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,20 +213,33 @@ header {
     cursor: pointer;
     font-size: 14px;
     border-radius: 20px;
-  }
-  
-  .google-logo {
+}
+
+.google-logo {
     width: 20px;
     height: 20px;
     margin-right: 10px;
-  }
-  
-  .google-text {
-    font-weight: bold;
-  }
+}
 
-  .google-sign-in:hover {
-    background-color: #272726; 
+.google-text {
+    font-weight: bold;
+}
+
+.google-sign-in:hover {
+    background-color: #272726;
     color: #fff;
-  }
-  
+}
+
+
+/* Privacy Policy Page */
+
+#privacy_policy {
+    display: none;
+}
+
+
+/* Contact Us Page */
+
+#contact_us {
+    display: none;
+}

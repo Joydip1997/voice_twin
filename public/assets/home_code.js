@@ -1,15 +1,22 @@
+const BASE_URL = "http://vocaltwin.cloud/"
 
 var currentTokenCount = 0
 var coinsUserWantToPurchase = 100
 var currentUserId = ""
 
-
+//Hamburger Menu
+var contactUsBtn = document.getElementById("contact-us");
+var privacyPolicyBtn = document.getElementById("privacy-policy");
 var logout = document.getElementById("logout");
+
+
 var sumbitBtn = document.getElementById("submitButton");
 
 var navButtonGenerateAudio = document.getElementById("nav_button_generate");
 var navButtonCoinCounterText = document.getElementById("nav_button_coin_counter_text");
 var navButtonCreateNewAudio = document.getElementById("nav_button_create_new_audio");
+var navButtonPrivacyPolicy = document.getElementById("nav_button_privacy_policy");
+var navButtonContactUs = document.getElementById("nav_button_contact_us");
 
 var generateAudioUi = document.getElementById("generate-audio-ui");
 var buyCoinsUi = document.getElementById("purchase-coins");
@@ -18,6 +25,8 @@ var textCounter = document.getElementById("text_counter");
 
 var slider = document.querySelector('.slider');
 var coinToPurchase = document.getElementById('coin-to-purchase');
+var contactUsPage = document.getElementById('contact_us');
+var privacyPolicyPage = document.getElementById('privacy_policy');
 
 var voiceForm = document.getElementById("voiceForm")
 var voicesSelect = document.getElementById("voices");
@@ -31,19 +40,57 @@ navButtonGenerateAudio.addEventListener('click', function () {
     generateAudioUi.style.display = "block";
     buyCoinsUi.style.display = "none";
     createAudioCloneUi.style.display = "none";
+    contactUsPage.style.display = "none";
+    privacyPolicyPage.style.display = "none";
 });
 
 navButtonCoinCounterText.addEventListener('click', function () {
     buyCoinsUi.style.display = "block";
     generateAudioUi.style.display = "none";
     createAudioCloneUi.style.display = "none";
+    contactUsPage.style.display = "none";
+    privacyPolicyPage.style.display = "none";
 });
 
 navButtonCreateNewAudio.addEventListener('click', function () {
     createAudioCloneUi.style.display = "block";
     generateAudioUi.style.display = "none";
     buyCoinsUi.style.display = "none";
+    contactUsPage.style.display = "none";
+    privacyPolicyPage.style.display = "none";
 });
+
+contactUsBtn.addEventListener("click", function () {
+    contactUsPage.style.display = "block"
+    buyCoinsUi.style.display = "none";
+    generateAudioUi.style.display = "none";
+    createAudioCloneUi.style.display = "none";
+    privacyPolicyPage.style.display = "none";
+})
+
+privacyPolicyBtn.addEventListener("click", function () {
+    privacyPolicyPage.style.display = "block"
+    buyCoinsUi.style.display = "none";
+    generateAudioUi.style.display = "none";
+    createAudioCloneUi.style.display = "none";
+    contactUsPage.style.display = "none";
+})
+
+navButtonContactUs.addEventListener("click", function () {
+    contactUsPage.style.display = "block"
+    buyCoinsUi.style.display = "none";
+    generateAudioUi.style.display = "none";
+    createAudioCloneUi.style.display = "none";
+    privacyPolicyPage.style.display = "none";
+})
+
+navButtonPrivacyPolicy.addEventListener("click", function () {
+    privacyPolicyPage.style.display = "block"
+    buyCoinsUi.style.display = "none";
+    generateAudioUi.style.display = "none";
+    createAudioCloneUi.style.display = "none";
+    contactUsPage.style.display = "none";
+})
 
 slider.addEventListener('input', function () {
     coinsUserWantToPurchase = slider.value
@@ -66,7 +113,7 @@ function fetchUserDetails(userId) {
 
 
     sumbitBtn.disabled = true;
-    const url = "http://vocaltwin.cloud" + '/getUserDetails?' + params.toString();
+    const url = BASE_URL + 'getUserDetails?' + params.toString();
 
 
     const requestOptions = {
@@ -123,6 +170,8 @@ logout.addEventListener("click", function () {
 })
 
 
+
+
 voiceForm.addEventListener("input", function (event) {
 
     var paragraph = document.getElementById("paragraph").value;
@@ -155,7 +204,7 @@ voiceForm.addEventListener("submit", function (event) {
     sumbitBtn.disabled = true;
     document.getElementById("voiceForm").appendChild(loadingText);
 
-    const apiUrl = 'http://vocaltwin.cloud/convertTextToAudio';
+    const apiUrl = BASE_URL + 'convertTextToAudio';
 
 
     const queryParams = {
@@ -219,7 +268,7 @@ voiceForm.addEventListener("submit", function (event) {
 });
 
 coinToPurchase.onclick = function (e) {
-    fetch('http://vocaltwin.cloud/purchase', {
+    fetch(BASE_URL + 'purchase', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -235,7 +284,7 @@ coinToPurchase.onclick = function (e) {
                 "name": "Voice Twin", //your business name
                 "description": coinsUserWantToPurchase + " Coins",
                 "image": "https://example.com/your_logo",
-                "callback_url": "http://vocaltwin.cloud/home",
+                "callback_url": BASE_URL + "home",
                 "order_id": data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "notes": {
                     "userId": currentUserId,
@@ -269,13 +318,13 @@ coinToPurchase.onclick = function (e) {
 function navigateToAuth() {
     document.body.innerHTML = '';
     document.head.innerHTML = '';
-    window.location.href = 'http://vocaltwin.cloud/auth';
+    window.location.href = BASE_URL + 'auth';
 }
 
 function navigateToHome() {
     document.body.innerHTML = '';
     document.head.innerHTML = '';
-    window.location.href = 'http://vocaltwin.cloud/home';
+    window.location.href = BASE_URL + 'home';
 }
 
 
@@ -290,13 +339,13 @@ const progressUi = document.getElementById('progressUi');
 
 
 filesInput.addEventListener('change', handleFileSelect);
-uploadAudioBtn.addEventListener('click',  handleUpload);
+uploadAudioBtn.addEventListener('click', handleUpload);
 let file
 let audioName
 
 function handleFileSelect(e) {
     const files = e.target.files;
-    file = files[0];    
+    file = files[0];
 }
 
 
@@ -304,7 +353,7 @@ function handleFileSelect(e) {
 function handleUpload() {
     const nameInput = document.getElementById('voiceName');
     audioName = nameInput.value
-   
+
 
     if (audioName.trim() === '') {
         alert('Please enter a name for the audio.');
@@ -321,8 +370,8 @@ function handleUpload() {
     //     return;
     // }
 
-  
-    
+
+
     uploadAudioBtn.style.display = 'none';
     progressUi.style.display = 'block';
 
@@ -332,7 +381,7 @@ function handleUpload() {
     formData.append('userId', currentUserId);
 
 
-    fetch('http://vocaltwin.cloud/clonevoice', {
+    fetch(BASE_URL + 'clonevoice', {
         method: 'POST',
         body: formData
     })

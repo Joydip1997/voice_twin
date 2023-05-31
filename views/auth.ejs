@@ -12,11 +12,13 @@
 <body>
     <header>
         <nav>
-          <ul>
-            <li><a id="pricing" href="#">Pricing</a></li>
-          </ul>
+            <ul>
+                <li><a id="pricing" href="#">Pricing</a></li>
+                <li><a id='nav_button_contact_us' href="#">Contact Us </a></li>
+                <li><a id='nav_button_privacy_policy' href="#">Privacy Policy</a></li>
+            </ul>
         </nav>
-      </header>
+    </header>
     <div class="hamburger" onclick="toggleMenu()">
         <div class="line"></div>
         <div class="line"></div>
@@ -59,10 +61,60 @@
         <span class="google-text">Sign in with Google</span>
     </button>
 
+    <!-- Pirvay Policy Page -->
+
+    <div id="privacy_policy" class="content">
+        <h1>Privacy Details</h1>
+        <p>Your privacy is important to us. This page outlines the types of personal information we receive and collect
+            when
+            you use our services, as well as some of the steps we take to safeguard your information.</p>
+
+        <h2>Information We Collect</h2>
+        <p>We may collect the following types of information:</p>
+        <ul>
+            <li>We only need your Email addressto log you in</li>
+        </ul>
+
+        <h2>How We Use Your Information</h2>
+        <p>We may use the collected information for the following purposes:</p>
+        <ul>
+            <li>To create your account in our database</li>
+            <li>To save your created audiofiles for you soyou can access them</li>
+            <li>To send promotional emails about new products, special offers, or other information which we think you
+                may
+                find
+                interesting</li>
+            <li>To contact you for market research purposes. We may contact you by email, phone, or mail.</li>
+        </ul>
+
+        <h2>Security</h2>
+        <p>We are committed to ensuring that your information is secure. In order to prevent unauthorized access or
+            disclosure, we have put in place suitable physical, electronic, and managerial procedures to safeguard and
+            secure
+            the information we collect online.</p>
+
+        <h2>Changes to This Privacy Policy</h2>
+        <p>We may update this privacy policy from time to time. We encourage you to periodically review this page for
+            the
+            latest information on our privacy practices.</p>
+
+    </div>
+
+    <div id="contact_us" class="content">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or concerns about our privacy policy, please feel free to contact us:</p>
+        <ul>
+            <li>Email: bosejoydip999@gmail.com</li>
+            <li>Phone: +91-7980511342</li>
+            <li>Address: 191 Ramkrishna Road, Kolkata, West Bengal,India</li>
+        </ul>
+    </div>
 
 
 
-    
+
+
+
     <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-auth.js"></script>
@@ -80,7 +132,7 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-    
+
         firebase.auth();
 
         // Check if a user is already logged in
@@ -91,11 +143,11 @@
                 fetchUserDetails(user.uid);
             } else {
                 // User is not logged in
-                
+
             }
         });
 
-       
+
 
 
 

@@ -1,8 +1,12 @@
+const BASE_URL = "http://vocaltwin.cloud/"
+
 const provider = new firebase.auth.GoogleAuthProvider();
 var slider = document.querySelector('.slider');
 var coinToPurchase = document.getElementById('coin-to-purchase');
 var generateAudio = document.getElementById('generate-audio');
 var navButtonPricing = document.getElementById('pricing');
+var navButtonPrivacyPolicy = document.getElementById("nav_button_privacy_policy");
+var navButtonContactUs = document.getElementById("nav_button_contact_us");
 
 function toggleMenu() {
     var hamburger = document.querySelector('.hamburger');
@@ -19,27 +23,37 @@ slider.addEventListener('input', function () {
 });
 
 
-var ui1 = document.getElementById("generate");
-var ui2 = document.getElementById("purchase-coins");
-var testId = document.getElementById("test-id");
+var generateAudioUi = document.getElementById("generate");
+var purchaseCoinsUi = document.getElementById("purchase-coins");
+var contactUsPage = document.getElementById('contact_us');
+var privacyPolicyPage = document.getElementById('privacy_policy');
 var googleSignInBtn = document.getElementById('google-sign-in-btn');
 
-var menuItem1 = document.getElementById("generate-audio");
-var menuItem2 = document.getElementById("buy-coins");
-var menuItem3 = document.getElementById("login");
+var menuGenerateAudio = document.getElementById("generate-audio");
+var menuPurchaseCoins = document.getElementById("buy-coins");
+var menuLogin = document.getElementById("login");
 
 // Add click event listeners to menu items
-menuItem1.addEventListener("click", function () {
-    ui1.style.display = "block"; // Enable UI 1
-    ui2.style.display = "none"; // Disable UI 2
+menuGenerateAudio.addEventListener("click", function () {
+    generateAudioUi.style.display = "block"; 
+    googleSignInBtn.style.display = "block"; 
+
+    purchaseCoinsUi.style.display = "none"; 
+    privacyPolicyPage.style.display = "none"; 
+    contactUsPage.style.display = "none"; 
+ 
 });
 
-menuItem2.addEventListener("click", function () {
-    ui1.style.display = "none"; // Disable UI 1
-    ui2.style.display = "block"; // Enable UI 2
+menuPurchaseCoins.addEventListener("click", function () {
+    purchaseCoinsUi.style.display = "block"; 
+    googleSignInBtn.style.display = "block"; 
+
+    generateAudioUi.style.display = "none"; 
+    privacyPolicyPage.style.display = "none"; 
+    contactUsPage.style.display = "none"; 
 });
 
-menuItem3.addEventListener("click", function () {
+menuLogin.addEventListener("click", function () {
     signinWitthGoogle()
 });
 
@@ -47,15 +61,34 @@ googleSignInBtn.addEventListener('click', function () {
     signinWitthGoogle()
 });
 
-generateAudio.addEventListener('click', function () {
-    ui1.style.display = "block"; // Disable UI 1
-    ui2.style.display = "none"; // Enable UI 2
-});
+
 
 navButtonPricing.addEventListener('click', function () {
-    ui1.style.display = "none"; // Disable UI 1
-    ui2.style.display = "block"; // Enable UI 2
+    purchaseCoinsUi.style.display = "block"; 
+    generateAudioUi.style.display = "none";
+
+    privacyPolicyPage.style.display = "none";
+    contactUsPage.style.display = "none";
+    googleSignInBtn.style.display = "block"; 
 });
+
+navButtonPrivacyPolicy.addEventListener("click", function () {
+    privacyPolicyPage.style.display = "block";
+  
+    purchaseCoinsUi.style.display = "none"; 
+    generateAudioUi.style.display = "none";
+    contactUsPage.style.display = "none";
+    googleSignInBtn.style.display = "none"; 
+})
+
+navButtonContactUs.addEventListener("click", function () {
+    contactUsPage.style.display = "block";
+  
+    purchaseCoinsUi.style.display = "none"; 
+    generateAudioUi.style.display = "none";
+    privacyPolicyPage.style.display = "none";
+    googleSignInBtn.style.display = "none"; 
+})
 
 function fetchUserDetails(userId) {
     // Define query parameters
@@ -64,7 +97,7 @@ function fetchUserDetails(userId) {
 
 
     // Build the URL with query parameters
-    const url = 'http://vocaltwin.cloud/getUserDetails?' + params.toString();
+    const url = BASE_URL + 'getUserDetails?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
@@ -86,8 +119,8 @@ function fetchUserDetails(userId) {
                 document.head.innerHTML = '';
 
                 // Navigate to another page
-                window.location.href = 'http://vocaltwin.cloud/home';
-            }else{
+                window.location.href = BASE_URL + 'home';
+            } else {
                 registerNewUser(userId)
             }
         })
@@ -104,7 +137,7 @@ function registerNewUser(userId) {
 
 
     // Build the URL with query parameters
-    const url = 'http://vocaltwin.cloud/register?' + params.toString();
+    const url = BASE_URL + 'register?' + params.toString();
 
     // Prepare the request options
     const requestOptions = {
