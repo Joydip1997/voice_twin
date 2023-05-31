@@ -1,4 +1,4 @@
-const BASE_URL = "http://vocaltwin.cloud/"
+const BASE_URL = "https://www.vocaltwin.cloud/"
 
 const provider = new firebase.auth.GoogleAuthProvider();
 var slider = document.querySelector('.slider');

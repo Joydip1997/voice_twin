@@ -1,4 +1,4 @@
-const BASE_URL = "http://vocaltwin.cloud/"
+const BASE_URL = "https://www.vocaltwin.cloud/"
 
 var currentTokenCount = 0
 var coinsUserWantToPurchase = 100
