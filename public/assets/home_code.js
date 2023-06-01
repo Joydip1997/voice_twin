@@ -94,9 +94,9 @@ navButtonPrivacyPolicy.addEventListener("click", function () {
 
 slider.addEventListener('input', function () {
     coinsUserWantToPurchase = slider.value
-    var coins = slider.value / 100
-    var price = (slider.value * 0.042).toFixed(2)
-    coinToPurchase.textContent = 'Buy ' + coins + 'K Coins $' + price;
+    var coins = slider.value 
+    var price = (slider.value * 0.25).toFixed(2)
+    coinToPurchase.textContent = 'Buy ' + coins + ' Coins ₹' + price;
 });
 
 function toggleMenu() {

@@ -368,9 +368,8 @@ function incrementCoins(userId, incrementBy) {
 app.post("/purchase", async (req, res) => {
   let coinsUserWantToPurchase = req.body.coinsUserWantToPurchase
 
-  let costPerCoin = 0.042
+  let costPerCoin = process.env.ONE_COIN_PRICE
   let totalCost = coinsUserWantToPurchase * costPerCoin
-
 
   var instance = new Razorpay({ key_id: 'rzp_test_RYO9l0r3IOg3Ia', key_secret: 'nx7RdpgXtbjCpK1N4nF73LSC' })
 

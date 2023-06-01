@@ -41,18 +41,7 @@ h1 {
     font-size: 30px;
 }
 
-.google-button {
-    display: inline-block;
-    background-color: #171617;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
-.google-button:hover {
-    background-color: #3367D6;
-}
 
 .hamburger {
     position: absolute;
@@ -205,6 +194,7 @@ nav ul li a:hover {
 .google-sign-in {
     display: flex;
     align-items: center;
+
     justify-content: center;
     background-color: white;
     color: #000;
@@ -213,6 +203,7 @@ nav ul li a:hover {
     cursor: pointer;
     font-size: 14px;
     border-radius: 20px;
+    margin-top: 40px;
 }
 
 .google-logo {
@@ -231,6 +222,7 @@ nav ul li a:hover {
 }
 
 
+
 /* Privacy Policy Page */
 
 #privacy_policy {
@@ -243,3 +235,17 @@ nav ul li a:hover {
 #contact_us {
     display: none;
 }
+
+/* Refund Policy Page */
+
+#refund_page {
+    display: none;
+}
+
+/* Terms And Conditions Page */
+
+#terms_conditions {
+    display: none;
+}
+
+

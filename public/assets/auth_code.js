@@ -7,6 +7,8 @@ var generateAudio = document.getElementById('generate-audio');
 var navButtonPricing = document.getElementById('pricing');
 var navButtonPrivacyPolicy = document.getElementById("nav_button_privacy_policy");
 var navButtonContactUs = document.getElementById("nav_button_contact_us");
+var navButtonRefund = document.getElementById("nav_button_refund_policy");
+var navButtonTermsAndConditions = document.getElementById("nav_button_terms_and_conditions");
 
 function toggleMenu() {
     var hamburger = document.querySelector('.hamburger');
@@ -18,8 +20,8 @@ function toggleMenu() {
 
 slider.addEventListener('input', function () {
     var coins = slider.value / 1000
-    var price = (slider.value * 0.00056).toFixed(2)
-    coinToPurchase.textContent = 'Buy ' + coins + 'K Coins $' + price;
+    var price = (slider.value * 0.25).toFixed(2)
+    coinToPurchase.textContent = 'Buy ' + coins + 'K Coins ₹' + price;
 });
 
 
@@ -27,6 +29,8 @@ var generateAudioUi = document.getElementById("generate");
 var purchaseCoinsUi = document.getElementById("purchase-coins");
 var contactUsPage = document.getElementById('contact_us');
 var privacyPolicyPage = document.getElementById('privacy_policy');
+var refundPolicyPage = document.getElementById('refund_page');
+var termsAndConditionsPage = document.getElementById('terms_conditions');
 var googleSignInBtn = document.getElementById('google-sign-in-btn');
 
 var menuGenerateAudio = document.getElementById("generate-audio");
@@ -40,6 +44,8 @@ menuGenerateAudio.addEventListener("click", function () {
 
     purchaseCoinsUi.style.display = "none"; 
     privacyPolicyPage.style.display = "none"; 
+    refundPolicyPage.style.display = "none";
+    termsAndConditionsPage.style.display = "none";
     contactUsPage.style.display = "none"; 
  
 });
@@ -50,6 +56,8 @@ menuPurchaseCoins.addEventListener("click", function () {
 
     generateAudioUi.style.display = "none"; 
     privacyPolicyPage.style.display = "none"; 
+    refundPolicyPage.style.display = "none";
+    termsAndConditionsPage.style.display = "none";
     contactUsPage.style.display = "none"; 
 });
 
@@ -69,6 +77,8 @@ navButtonPricing.addEventListener('click', function () {
 
     privacyPolicyPage.style.display = "none";
     contactUsPage.style.display = "none";
+    refundPolicyPage.style.display = "none";
+    termsAndConditionsPage.style.display = "none";
     googleSignInBtn.style.display = "block"; 
 });
 
@@ -78,6 +88,7 @@ navButtonPrivacyPolicy.addEventListener("click", function () {
     purchaseCoinsUi.style.display = "none"; 
     generateAudioUi.style.display = "none";
     contactUsPage.style.display = "none";
+    refundPolicyPage.style.display = "none";
     googleSignInBtn.style.display = "none"; 
 })
 
@@ -87,6 +98,30 @@ navButtonContactUs.addEventListener("click", function () {
     purchaseCoinsUi.style.display = "none"; 
     generateAudioUi.style.display = "none";
     privacyPolicyPage.style.display = "none";
+    refundPolicyPage.style.display = "none";
+    termsAndConditionsPage.style.display = "none";
+    googleSignInBtn.style.display = "none"; 
+})
+
+navButtonRefund.addEventListener("click", function () {
+    refundPolicyPage.style.display = "block";
+  
+    contactUsPage.style.display = "none"; 
+    purchaseCoinsUi.style.display = "none"; 
+    generateAudioUi.style.display = "none";
+    privacyPolicyPage.style.display = "none";
+    termsAndConditionsPage.style.display = "none";
+    googleSignInBtn.style.display = "none"; 
+})
+
+navButtonTermsAndConditions.addEventListener("click", function () {
+    termsAndConditionsPage.style.display = "block";
+  
+    contactUsPage.style.display = "none"; 
+    purchaseCoinsUi.style.display = "none"; 
+    generateAudioUi.style.display = "none";
+    privacyPolicyPage.style.display = "none";
+    refundPolicyPage.style.display = "none";
     googleSignInBtn.style.display = "none"; 
 })
 
